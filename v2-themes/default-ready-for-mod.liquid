@@ -216,28 +216,27 @@ var xsappinitfrontend = function(){
   }
 var addThemeCustomization = function(){
  xsellLib.customBuildxsellsoutput = function(xsellitems, numproducts){
-     	// put output code here
-      // START HERE
+   // settings from GUI
+  	var xsmustbeavailable = xsellSettings.xsmustbeavailable;
+  	var xshideifincart = xsellSettings.xshideifincart;
+  	var xsdisplaycompareatprice = xsellSettings.xsdisplaycompareatprice;
+  	var xsdisplaysalebadge = xsellSettings.xsdisplaysalebadge;
+  	var xsdisplaypricevarieslabel = xsellSettings.xsdisplaypricevarieslabel;
+  	var xsdisplayvendor = xsellSettings.xsdisplayvendor;
+    // START HERE
     var xsimagesize = 'large';
-  	var xsmustbeavailable = xsellSettings.mustbeavailable;
-  	var xshideifincart = xsellSettings.hideifincart;
-
-  	var xsdisplaycompareatprice = xsellSettings.displaycompareatprice;
-  	var xsdisplaysalebadge = xsellSettings.displaysalebadge;
-  	var xsdisplaypricevarieslabel = xsellSettings.displaypricevarieslabel;
-  	var xsdisplayvendor = xsellSettings.displayvendor;
-                var xsvendoroutput = '';
-      			var xspricevarieslabel = '';
-                var xscompareatprice = '';
-                var xscompareatpricestring = '';
-              	var xssalepricestring = '';
-              	var xspriceoutput = '';
-                var xssalebadge = '<span class="badge badge--sale"><span class="badge__text">SALE</span></span>';
-              	var xssalebadgeoutput = '';
-                var saleclass = ' xs-sale';
-                var fromlabel = '<em>from</em>';
-                var xsprice = '';
-              	for(var x=0; x < numproducts; x++)
+    var xsvendoroutput = '';
+    var xspricevarieslabel = '';
+    var xscompareatprice = '';
+    var xscompareatpricestring = '';
+  	var xssalepricestring = '';
+  	var xspriceoutput = '';
+    var xssalebadge = '<span class="badge badge--sale"><span class="badge__text">SALE</span></span>';
+  	var xssalebadgeoutput = '';
+    var saleclass = ' xs-sale';
+    var fromlabel = '<em>from</em>';
+    var xsprice = '';
+  	for(var x=0; x < numproducts; x++)
 				{
                   	var xsproductdata = xsellitems[x];
 
@@ -289,7 +288,7 @@ var addThemeCustomization = function(){
                     {
   	                  if(!xsproductdata.price_varies && (xsproductdata.compare_at_price > xsproductdata.price))
         	            {
-            	            xscompareatprice = xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
+            	            xscompareatprice = xsellLib.xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
                           xscompareatpricestring = '<span class="xs-compare-at-price">' + xscompareatprice + '</span>';
                           xssalepricestring = '<span class="xs-sale-price"><a href="' + xsproductdata.url +'">' + xsprice + '</a></span>';
                           xspriceoutput = '<div class="money' + saleclass + '">' + xscompareatpricestring + ' ' + xspricevarieslabel + xssalepricestring + '</div>';
