@@ -1,0 +1,532 @@
+{% if template contains 'product' %}
+  	{% assign cscurrentpage = 'product' %}
+{% endif %}
+{% if template == 'cart' %}
+  	{% assign cscurrentpage = 'cart' %}
+	{% assign cssmartcart = 'on' %}
+{% endif %}
+
+
+{% if shop.metafields.shopCrosssell.settings != null %}
+
+<script type="text/javascript" charset="utf-8">
+
+{% assign cartitems = ''%}
+{% for item in cart.items %}
+	{% if forloop.first == true %}
+		{% capture cartitems %}{{ item.product.handle }}{% endcapture %}
+	{% else %}
+		{% capture cartitems %}{{ cartitems }},{{ item.product.handle }}{% endcapture %}
+	{% endif %}
+{% endfor %}
+
+{% if cartitems %}
+        var cartitems = '{{ cartitems }}';
+		cartitems = cartitems.split(',');
+{% else %}
+		var cartitems = '';
+{% endif %}
+
+	  //objects
+    var xsellitems = {};
+    var xsellproductdata = [];    
+
+    //settings
+    var xsmainproducthandle = '{{ product.handle }}';
+    var xsimagesize = 'grande';
+    var xsrandomizeproductpage = false;
+    var xsrandomizecartpage = false;
+    var xsmustbeavailable = true;
+    var xshideifincart = false;
+
+    //display variables
+    var xsdisplaycompareatprice = true;
+    var xsdisplaysalebadge = true;
+    var xsdisplaypricevarieslabel = false;
+    var xsdisplayvendor = true;
+
+    //text and labels 
+    var xselloutput = '';
+    var xstmpdata = '';
+    var xstmptitle = '';
+    var xspricevarieslabel = '';
+    var xsvendoroutput = '';
+
+    ///display classes
+    var alphaomega = '';
+    var evenodd = ''; 
+    var classcounter = 0;
+    var displaycounter = 0;
+
+  function xsfloatToString(numeric, decimals)
+  {
+    var amount = numeric.toFixed(decimals).toString();
+    if(amount.match(/^\.\d+/)) {return "0"+amount; }
+    else { return amount; }
+  }
+  xsformatMoney = function(cents, format)
+  {
+    if (typeof cents == 'string') cents = cents.replace('.','');
+    var value = '';
+    var patt = /\{\{\s*(\w+)\s*\}\}/;
+    var xsformatString = (format || this.money_format);
+
+    function addCommas(moneyString) {
+      return moneyString.replace(/(\d+)(\d{3}[\.,]?)/,'$1,$2');
+    }
+
+    switch(xsformatString.match(patt)[1])
+    {
+      case 'amount':
+      value = addCommas(xsfloatToString(cents/100.0, 2));
+      break;
+      case 'amount_no_decimals':
+      value = addCommas(xsfloatToString(cents/100.0, 0));
+      break;
+      case 'amount_with_comma_separator':
+      value = xsfloatToString(cents/100.0, 2).replace(/\./, ',');
+      break;
+      case 'amount_no_decimals_with_comma_separator':
+      value = addCommas(xsfloatToString(cents/100.0, 0)).replace(/\./, ',');
+      break;
+    }
+    return xsformatString.replace(patt, value);
+  };
+
+  function xssortByKey(o, key) {
+    return o.sort(function(a, b) {
+      var x = Number(a[key]); var y = Number(b[key]);
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+
+  function xsshuffle(o){
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
+  }
+
+  function productimageurls(image)
+  {
+    var position = image.lastIndexOf('.');
+    return [image.slice(0, position), '_' + xsimagesize, image.slice(position)].join('');
+  }
+
+  var crosssellsettings = eval({{ shop.metafields.shopCrosssell.settings | json }});
+
+  {% if cscurrentpage == 'product' %}
+    //product specific settings
+    var crossselltitleproductpage = crosssellsettings[0]['titleproductpage'];
+    var crossselltitleproductpagedefault = crosssellsettings[0]['titleproductpagedefault'];
+    var crosssellmaxitems = crosssellsettings[0]['productpagemaxitems'];
+    var crosssellshowdefault = crosssellsettings[0]['showdefault'];
+  {% else if cscurrentpage == 'cart' %}
+    //cart/basket settings
+    var crossselltitlecheckoutpage = crosssellsettings[0]['titlecheckoutpage'];
+    var crosssellmaxitems = crosssellsettings[0]['checkoutpagemaxitems'];
+    var crosssellshowcheckout = crosssellsettings[0]['showcheckout'];
+  {% endif %}
+
+</script>
+
+<style type="text/css">
+
+.cross-sell .thumbnail:hover {opacity: 0.8;}
+.cross-sell .thumbnail {float: none;display: inline-block;vertical-align: text-top;}
+ 
+</style>
+
+<div id="cross-sell"></div>
+
+{% endif %}
+
+<script type="text/javascript" charset="utf-8">
+
+(function(){
+
+ var xsloadScript = function(url, callback)
+ {
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+
+      // If the browser is Internet Explorer.
+      if (script.readyState)
+      {
+        script.onreadystatechange = function()
+        {
+          if (script.readyState == "loaded" || script.readyState == "complete")
+          {
+            script.onreadystatechange = null;
+            callback();
+          }
+        };
+        // For any other browser.
+      }
+      else
+      {
+        script.onload = function()
+        {
+          callback();
+        };
+      }
+
+      script.src = url;
+      document.getElementsByTagName("head")[0].appendChild(script);
+    };
+
+	var xsappinitfrontend = function(jQueryxsAppxsApp)
+    {
+	  {% if cscurrentpage == 'product' %}
+	    //First of all, see if this product has any handpicked crosssell items
+	    if(crosssellshowdefault != '4')
+	    {
+	      {% if product.metafields.productDetails.crosssell != null %}
+	        //See if the selected product has any cross-sell items
+	        xstmpdata = eval({{ product.metafields.productDetails.crosssell | json }});
+	        if(crossselltitleproductpage.length) // if a title has been selected
+	        {
+	          xstmptitle = crossselltitleproductpage;
+	        }
+	      {% endif %}
+	    }
+	    if(crosssellshowdefault == '1' || (crosssellshowdefault == '2' && xstmpdata == ''))
+	    {
+	      //Show default cross-sell items on all product pages? Override all
+	      //See if any default cross-sell items have been selected for the product page
+	      {% if shop.metafields.shopCrosssell.default != null %}
+	        xstmpdata = eval({{ shop.metafields.shopCrosssell.default | json }});
+	        if(crossselltitleproductpagedefault.length) // if a default products title has been selected
+	        {
+	          xstmptitle = crossselltitleproductpagedefault;
+	        }
+	      {% endif %}
+	    }
+	  {% else %}
+	    //We are not on the product page. //Has the merchant turned on checkout cross-sell items?
+	    if(crosssellshowcheckout == '2')
+	    {
+
+          {% if shop.metafields.shopCrosssell.settings != null %}
+           {% assign crosssellsettings = shop.metafields.shopCrosssell.settings | remove: "[{" | remove: "}]" | strip | replace: '","', '"|||"' | split: '|||' %}
+            {% for settingpair in crosssellsettings %}
+                {% assign setting = settingpair    | strip | split: ' : ' %}
+                {% capture main %}{{ setting[0] | replace: '"', '' }}{% endcapture %}
+                {% case main %}
+                  {% when 'cssmartcart' %}
+                     {% capture cssmartcart %}{{ setting[1] | replace: '"', '' }}{% endcapture %}
+                {% endcase %}
+            {% endfor %}
+           {% endif %}
+
+           {% if cssmartcart == 'on' %}
+              {% for item in cart.items %}
+                 {% assign csitem = all_products[item.product.handle] %}
+                  {% if csitem.metafields.productDetails.crosssell != null %}
+                      {% assign csitemmetafield = csitem.metafields.productDetails.crosssell %}
+                      {% capture cssmartcartxsells %}{{ csitemmetafield }}{% endcapture %}
+                      {% break %}
+                  {% endif %}
+              {% endfor %}
+           {% endif %}
+
+            {% comment %}Grab default Cart Cross-Sells if set{% endcomment %}
+            {% if shop.metafields.shopCrosssell.checkout != null %}
+                {% assign csdefaultcartxsells = shop.metafields.shopCrosssell.checkout %}
+            {% endif %}
+
+            {% if cssmartcart == 'on' and cssmartcartxsells != null %}
+                {% assign xstmpdata = cssmartcartxsells %}
+            {% else %}
+                {% assign xstmpdata = csdefaultcartxsells %}
+            {% endif %}
+
+            xstmpdata = eval({{ xstmpdata | json }});
+
+            if(crossselltitlecheckoutpage.length) // if a default checkout title has been selected
+            {
+              xstmptitle = crossselltitlecheckoutpage;
+            }
+
+	    }
+	  {% endif %}
+
+		if(xstmpdata)
+		{
+
+          	function buildxsells(xsdata)
+            {
+
+              // 1. Declare an array of Deferred objects
+              var processItemsDeferred = [];
+
+              // 2. For each element of data, create a Deferred push push it to the array
+              for(var i = 0; i < xsdata.length; i++){
+          
+                  //don't process this cross-sell if it is in the basket
+                    if(xshideifincart)
+                    {
+                      if( jQueryxsApp.inArray(xsdata[i].handle, cartitems) == -1)
+                      {
+                          //don't process this cross-sell if it is the same as the main product page
+                         if(xsdata[i].handle !== xsmainproducthandle)
+                         {
+                          processItemsDeferred.push(processItem(xsdata[i]));
+                         }
+                      }
+                    }
+                    else
+                    {
+                        //don't process this cross-sell if it is the same as the main product page
+                        if(xsdata[i].handle !== xsmainproducthandle)
+                        {
+                          processItemsDeferred.push(processItem(xsdata[i]));
+                        }
+                    }
+                  }
+
+              // 3. WHEN ALL Deferred objects in the array are resolved THEN call the function
+              //    Note : same as $.when(processItemsDeferred[0], processItemsDeferred[1], ...).then(everythingDone);
+              jQueryxsApp.when.apply(jQueryxsApp, processItemsDeferred).then(everythingDone);
+
+              // 3.1. Function called by the loop to create a Deferred object (data is numeric)
+              function processItem(xsitem) {
+
+                var xsorder = xsitem["order"];          		          
+
+                // 3.1.1. Create the Deferred object and output some debug
+                var dfd = jQueryxsApp.Deferred();
+
+                // 3.1.2. After some timeout, resolve the current Deferred
+                //in the real world, this would probably make an AJAX call.
+                jQueryxsApp.ajax({
+                         cache: true,
+                         contentType : 'application/json',
+                         dataType: "json",
+                         error: function(){
+                           dfd.resolve()
+                         },
+                         success: function(xsproduct) {
+                           if(xsmustbeavailable)
+                           {
+                             if(xsproduct.available)
+                             {
+                               xsproduct.order = xsorder;
+                               xsellproductdata.push(xsproduct);
+                             }
+                           }
+                             else
+                             {
+                              xsproduct.order = xsorder;
+                              xsellproductdata.push(xsproduct);
+                             }
+                           dfd.resolve();
+                         },
+                         url: '/products/' + xsitem["handle"] + '.js?'
+                    });
+
+                // 3.1.3. Return that Deferred (to be inserted into the array)
+                return dfd.promise();
+              }
+
+              // 4.1. Function called when all deferred are resolved
+              function everythingDone(){
+                // 4.1.1. Do some debug trace
+				    buildxsellsoutput(xsellproductdata);
+              }
+            }
+
+
+          	function buildxsellsoutput(xsellitems)
+            {
+              	var xsrandomize = false;
+                {% if cscurrentpage == 'product' %}
+              		if(xsrandomizeproductpage)
+                    {
+                      xsrandomize = true;
+                    }
+
+              	{% else if cscurrentpage == 'cart' %}
+                    if(xsrandomizecartpage)
+                    {
+                      xsrandomize = true;
+                    }
+
+                {% endif %}
+              
+              	if(xsrandomize)
+                {
+                  //randomize the products
+                  xsellitems = xsshuffle(xsellitems);
+                }
+                else
+                {
+                  //sort the array in the order the merchant has picked the products
+                  xsellitems = xssortByKey(xsellitems, 'order');
+                }
+
+                var numproducts = (crosssellmaxitems < xsellitems.length) ? crosssellmaxitems : xsellitems.length;
+
+                var xscompareatprice = '';
+                var xscompareatpricestring = '';
+              	var xssalepricestring = '';
+              	var xspriceoutput = '';
+                var xssalebadge = '<div class="sale_banner">{{ 'collections.general.sale' | t }}</div>';
+              	var xssalebadgeoutput = '';
+                var saleclass = '';
+                var fromlabel = '<em>from</em>';
+
+                var xsprice = '';
+
+              	for(var x=0; x < numproducts; x++)
+				{
+
+                    evenodd = (displaycounter % 2 == 0)? ' even' : ' odd';
+                    classcounter = displaycounter + 1;
+                    if(classcounter == 1)          
+                    {
+                      alphaomega = ' alpha ';
+                    }
+                    else
+                    {
+                      if(classcounter % 4 == 0)
+                      {
+                        alphaomega = ' omega ';
+                      }
+                      else if(displaycounter % 4 == 0)
+                      {
+                        alphaomega = ' alpha ';          
+                      }
+                      else
+                      {
+                        alphaomega = ' ';
+                      }
+                    }
+
+                  	var xsproductdata = xsellitems[x];
+
+                  	//Show Images
+                    if(xsproductdata.images.length > 1)
+                    {
+                      var csimage = productimageurls(xsproductdata.images[0]);
+                      var csimagetwo = productimageurls(xsproductdata.images[1]);
+                    }
+                    else if(xsproductdata.images.length == 1)
+                    {
+                      var csimage = productimageurls(xsproductdata.images[0]);
+                      var csimagetwo = 'https://cdn.shopify.com/s/images/admin/no-image-'+xsimagesize+'.gif';
+                    }
+                    else
+                    {
+                      var csimage = 'https://cdn.shopify.com/s/images/admin/no-image-'+xsimagesize+'.gif';
+                      var csimagetwo = csimage;
+                    }
+                  
+                  	//Display Vendor
+                     if(xsdisplayvendor)
+                     {                              
+                       xsvendoroutput = '<div class="xs-vendor-name"><a href="' + xsproductdata.url +'">' + xsproductdata.vendor + '</a></div>';
+                     }
+                  
+                  
+
+                    //Build Price Output
+                    xsprice = xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
+
+
+					//Show price varies label?
+                    if(xsdisplaypricevarieslabel)
+                    {
+                    	if(xsproductdata.price_varies)
+                      	{
+                          xspricevarieslabel = 'From: ';
+                          saleclass = 'sale'
+                      	}
+                      	else
+                      	{
+                        	xspricevarieslabel = '';
+                          saleclass = ''
+                      	}
+                    }
+
+                    xspriceoutput = '<span class="price">' + xsprice + '</span>';
+
+                    if(xsdisplaycompareatprice)
+                    {
+  	                  if(!xsproductdata.price_varies && (xsproductdata.compare_at_price > xsproductdata.price))
+        	            {
+            	            xscompareatprice = xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
+                          xscompareatpricestring = '<span class="was_price">' + xscompareatprice + '</span>';
+                          xspriceoutput = '<span class="price">' + xsprice + ' ' + xscompareatpricestring + '</span>';
+                      }
+                    }
+
+                    //Show Sale Badge Output
+                    if(xsdisplaysalebadge)
+                    {
+                      if(xsproductdata.compare_at_price > xsproductdata.price)
+                      {
+                        xssalebadgeoutput = xssalebadge;
+                      }
+                      else
+                      {
+                       xssalebadgeoutput = ''; 
+                      }
+                    }
+
+                    xselloutput += '<div class="four columns ' + alphaomega + saleclass + ' thumbnail ' + evenodd + '" data-xsorder="' + xsproductdata["order"] + '">'
+                                    + '<a href="' + xsproductdata.url + '" title="' + xsproductdata.title + '">'
+                                    + '<div class="relative product_image">'
+                                    + '<img src="' + csimage + '" data-src="' + csimage + '" alt="' + xsproductdata.title + '" class="lazyload transition-in primary" />'
+                                    + '<img src="' + csimagetwo + '" alt="' + xsproductdata.title + '" class="secondary" />'
+                                    + '</div>'
+                                    + '<div class="info">'
+                                    + '<span class="title">' + xsproductdata.title + '</span>'
+                                    + '<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id + '"></span>'
+                                    + xspriceoutput
+                                    + '</div>'
+                                    + xssalebadgeoutput
+                                    + '</a>'
+                                    + '</div>';
+
+                                    displaycounter++;
+				}
+        if(xselloutput != '')
+        {
+                jQueryxsApp('#cross-sell').append('<div class="sixteen columns"><div class="section clearfix"><h2>' + xstmptitle + '</h2></div></div><div class="sixteen columns"><div itemtype="http://schema.org/ItemList" class="products cross-sell">' + xselloutput + '</div></div></div>');
+          }
+        }   
+
+			//Set the maximum number of items that should be shown?
+		    if (xstmpdata.length && (xstmpdata[0] !== ''))
+		    {
+          	buildxsells(xstmpdata);
+			  }
+          else
+          {
+           	//There are no cross-sells to display
+            	var elem = document.getElementById("cross-sell");
+			        elem.parentNode.removeChild(elem);
+          }
+		}
+		//Cross-sell settings
+		var settingsoutput = '';
+		jQueryxsApp.each(crosssellsettings[0], function(key, value){
+			settingsoutput += '<input type="hidden" name="' + key + '" id="cs_' + key + '" value="' + value + '" />';
+		});
+		jQueryxsApp('#cross-sell').append(settingsoutput);
+	}
+
+	if ((typeof jQueryxsApp === 'undefined') || (parseFloat(jQueryxsApp.fn.jquery) < 3))
+	{
+	  xsloadScript('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', function(){
+	    jQueryxsApp = jQuery.noConflict(true);
+	    xsappinitfrontend(jQueryxsApp);
+	  });
+	}
+	else
+	{
+	  xsappinitfrontend(jQueryxsApp);
+	}
+
+})();
+
+</script>

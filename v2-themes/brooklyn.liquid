@@ -4,7 +4,6 @@ Editing this file could break Cross Sell app functionality
 version: xsell-v.2.0.0 [Do not remove version info]
 support webite: http://help.csell.co
 {% endcomment %}
-
 {% if template contains 'product' %}
   	{% assign cscurrentpage = 'product' %}
 {% endif %}
@@ -25,32 +24,17 @@ support webite: http://help.csell.co
 {% if shop.metafields.shopCrosssell.settings != null %}
 
 <style type="text/css">
-
-  /*
-  #cross-sell{float:left;clear:both;width:100%;}
-  h3.crossselltitle{margin:25px 0;text-align: center;}
-  .cross-sell{overflow:hidden;list-style-type:none;margin:0;padding:0;clear:both;text-align:center;}
-  .cross-sell *{font-size:13px; text-align:center; padding:0;}
-  .cross-sell h4{border:none;margin:5px 0 0 0;line-height:1.5;}
-  .cross-sell div.image{height:180px;}
-  .cross-sell li{float: none;display:inline-block;vertical-align: text-top;padding:0 0 10px 0;margin:0 14px 30px 0;position:relative;width:172px;}
-  .cross-sell li:last-child{margin-right:0;}
-  .cross-sell li .image{}
-  .cross-sell li .image img{margin:0px 0 10px 0px;float:left;width:100%;}
-  .cross-sell li .producttitle{float:left;padding:5px 0;width:100%;min-height:56px;}
-  .cross-sell li a{text-decoration:none;font-size:115%;line-height:20px;padding:5px;}
-  .cross-sell li .money a{font-size:180%;float:left;text-align:center; padding:5px 0;width:100%;}
-  .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
-  .cross-sell .xs-vendor-name{padding:5px 0;width:100%;display:inline-block;}
-  .cs-clearfix:after {content: "."; visibility: hidden; display: block; height: 0; clear: both;}*/
-  #cross-sell span.h1 {text-align:center;margin:30px 0;font-size: 1.625em; font-family: "Old Standard TT",serif;letter-spacing: 0em; text-transform: none;}
+#cross-sell span.h1 {text-align:center;margin:30px 0;font-size: 1.625em; font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;letter-spacing: 0em; text-transform: none;}
 /*#cross-sell .grid-product__image-link{height:230px;}*/
 /*#cross-sell .grid-product__image{padding: 20px;} */
+
+#cross-sell {text-align: center!important;}
+#cs-or {text-align: center!important;}
+#cross-sell .cross-sell .grid__item{float: none!important;display: inline-block!important;vertical-align: text-top!important;}
+
 </style>
 
-<div class="cs-clearfix"></div>
 <div id="cross-sell"></div>
-<div class="cs-clearfix"></div>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -175,7 +159,13 @@ var xsappinitfrontend = function(){
   if(xsproductsData){
     //Set the maximum number of items that should be shown?
     if (xsproductsData.length && (xsproductsData[0] !== '')){
-      whenAvailable('xsellLib')
+      window.xsellData = {
+        data: xsproductsData,
+        settings: xsellSettings,
+        themeCustomization: function(){
+          addThemeCustomization();
+        }
+      }
     } else {
       //There are no cross-sells to display
       var elem = document.getElementById("cross-sell");
@@ -183,19 +173,6 @@ var xsappinitfrontend = function(){
     }
   }
 }
-
-
-  function whenAvailable(name) {
-      var interval = 100;
-      window.setTimeout(function() {
-          if (window[name]) {
-              xsellLib.init(xsproductsData, xsellSettings);
-      		  addThemeCustomization();
-          } else {
-              window.setTimeout(whenAvailable(name), interval);
-          }
-      }, interval);
-  }
 
   // load jquery and init
   function xsloadScript(url, callback) {
@@ -227,43 +204,29 @@ var xsappinitfrontend = function(){
   } else {
     xsappinitfrontend();
   }
-
-      var addThemeCustomization = function(){
- 		xsellLib.customBuildxsellsoutput = function(xsellitems, numproducts){
-     	// put output code here
-        // ensure all variables are initialized
-        // set using theme specific values as required.
-
-        // var xscompareatprice = '';
-        // var xscompareatpricestring = '';
-        // var xssalepricestring = '';
-        // var xspriceoutput = '';
-        // var xssalebadge = '';
-        // var xssalebadgeoutput = '';
-        // var saleclass = '';
-        // var fromlabel = '';
-        // var xspricevarieslabel = '';
-        // var xsvendoroutput = '';
-        // var xsprice = '';
-     var xsimagesize = 'large';
-  	 var xsmustbeavailable = xsellSettings.xsmustbeavailable;
-  	 var xshideifincart = xsellSettings.xshideifincart;
-  	 var xsdisplaycompareatprice = xsellSettings.xsdisplaycompareatprice;
-  	 var xsdisplaysalebadge = xsellSettings.xsdisplaysalebadge;
-  	 var xsdisplaypricevarieslabel = xsellSettings.xsdisplaypricevarieslabel;
-  	 var xsdisplayvendor = xsellSettings.xsdisplayvendor;
-        var xscompareatprice = '';
-                var xscompareatpricestring = '';
-              	var xssalepricestring = '';
-              	var xspriceoutput = '';
-                var xssalebadge = '<span class="badge badge--sale"><span class="badge__text">SALE</span></span>';
-              	var xssalebadgeoutput = '';
-                var saleclass = ' xs-sale';
-                var fromlabel = '<em>from</em>';
-
-                var xsprice = '';
-
-              	for(var x=0; x < numproducts; x++)
+var addThemeCustomization = function(){
+ xsellLib.customBuildxsellsoutput = function(xsellitems, numproducts){
+   // settings from GUI
+  	var xsmustbeavailable = xsellSettings.xsmustbeavailable;
+  	var xshideifincart = xsellSettings.xshideifincart;
+  	var xsdisplaycompareatprice = xsellSettings.xsdisplaycompareatprice;
+  	var xsdisplaysalebadge = xsellSettings.xsdisplaysalebadge;
+  	var xsdisplaypricevarieslabel = xsellSettings.xsdisplaypricevarieslabel;
+  	var xsdisplayvendor = xsellSettings.xsdisplayvendor;
+    // START HERE
+    var xsimagesize = 'large';
+    var xsvendoroutput = '';
+    var xspricevarieslabel = '';
+    var xscompareatprice = '';
+    var xscompareatpricestring = '';
+  	var xssalepricestring = '';
+  	var xspriceoutput = '';
+    var xssalebadge = '<span class="badge badge--sale"><span class="badge__text">SALE</span></span>';
+  	var xssalebadgeoutput = '';
+    var saleclass = ' xs-sale';
+    var fromlabel = '<em>from</em>';
+    var xsprice = '';
+  	for(var x=0; x < numproducts; x++)
 				{
                   	var xsproductdata = xsellitems[x];
 
@@ -311,13 +274,11 @@ var xsappinitfrontend = function(){
 
                     xspriceoutput = '<span class="grid-product__price">' + xsprice + '</span>';
 
-
-
                     if(xsdisplaycompareatprice)
                     {
   	                  if(!xsproductdata.price_varies && (xsproductdata.compare_at_price > xsproductdata.price))
         	            {
-            	            xscompareatprice = xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
+            	            xscompareatprice = xsellLib.xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
                           xscompareatpricestring = '<span class="xs-compare-at-price">' + xscompareatprice + '</span>';
                           xssalepricestring = '<span class="xs-sale-price"><a href="' + xsproductdata.url +'">' + xsprice + '</a></span>';
                           xspriceoutput = '<div class="money' + saleclass + '">' + xscompareatpricestring + ' ' + xspricevarieslabel + xssalepricestring + '</div>';
@@ -331,13 +292,13 @@ var xsappinitfrontend = function(){
                       {
                         xssalebadgeoutput = xssalebadge;
                       }
-                      else
+					  else
                       {
-                       xssalebadgeoutput = '';
+                        xssalebadgeoutput = '';
                       }
                     }
 
-                    xsellLib.xselloutput += '<div class="grid__item grid-product medium--one-half large--one-fifth" data-xsorder="' + xsproductdata["order"] + '">'
+                    xsellLib.xselloutput += '<div class="grid__item grid-product medium--one-half large--one-third" data-xsorder="' + xsproductdata["order"] + '">'
                                   + '<div class="grid-product__wrapper">'
                                     + '<div class="grid-product__image-wrapper">'
                                       + '<a class="grid-product__image-link" href="' + xsproductdata.url +'">'
@@ -356,9 +317,9 @@ var xsappinitfrontend = function(){
 				}
         if(xsellLib.xselloutput != '')
           {
-                jQueryxsApp('#cross-sell').append('<span class="h1">' + xsellLib.settings.xstitle + '</span><div class="grid-uniform cross-sell">' + xsellLib.xselloutput + '</div>');
+                jQueryxsApp('#cross-sell').append('<span class="h1">' + xsellLib.settings.xstitle + '</span><div id="cs-or" class="grid-uniform cross-sell">' + xsellLib.xselloutput + '</div>');
           }
-
+     //end
     }
 }
 </script>

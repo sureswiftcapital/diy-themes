@@ -54,10 +54,7 @@ support webite: http://help.csell.co
 <div class="cs-clearfix"></div>
 
 <script type="text/javascript" charset="utf-8">
-
-  // use default or custom snippet?
-  var xsellCustom = true;
-  //
+console.log('josh test loaded');
   var xsellSettings = xsellSettings || {};
 {% if cartitems %}
     var cartitems = '{{ cartitems }}';
@@ -69,6 +66,7 @@ support webite: http://help.csell.co
     xsellSettings.shopMetafields = eval({{ shop.metafields.shopCrosssell | json }});
     xsellSettings.crosssellsettings = eval({{ shop.metafields.shopCrosssell.settings | json }});
     xsellSettings.money_format = '{{shop.money_format}}';
+    console.log('xsellSettings.money_format: ', xsellSettings.money_format);
     xsellSettings.xsmainproducthandle = '{{ product.handle }}';
     xsellSettings.currentpagetype = '{{ cscurrentpage }}';
     xsellSettings.xsimagesize = 'large';
@@ -179,7 +177,13 @@ var xsappinitfrontend = function(){
   if(xsproductsData){
     //Set the maximum number of items that should be shown?
     if (xsproductsData.length && (xsproductsData[0] !== '')){
-      whenAvailable('xsellLib')
+      window.xsellData = {
+        data: xsproductsData,
+        settings: xsellSettings,
+        themeCustomization: function(){
+          addThemeCustomization();
+        }
+      }
     } else {
       //There are no cross-sells to display
       var elem = document.getElementById("cross-sell");
@@ -187,19 +191,6 @@ var xsappinitfrontend = function(){
     }
   }
 }
-
-
-  function whenAvailable(name) {
-      var interval = 100;
-      window.setTimeout(function() {
-          if (window[name]) {
-              xsellLib.init(xsproductsData, xsellSettings);
-              addThemeCustomization();
-          } else {
-              window.setTimeout(whenAvailable(name), interval);
-          }
-      }, interval);
-  }
 
   // load jquery and init
   function xsloadScript(url, callback) {
@@ -232,23 +223,16 @@ var xsappinitfrontend = function(){
   }
 
   var addThemeCustomization = function(){
-   if(xsellCustom == false){
-      console.log('xsell is loaded and not using a mod');
-    }
-  else if(xsellCustom == true){
-   console.log('xsell is loaded and using a mod');
    xsellLib.customBuildxsellsoutput = function(xsellitems, numproducts){
-
-    var xsimagesize = 'large';
-  	var xsmustbeavailable = xsellSettings.mustbeavailable;
-  	var xshideifincart = xsellSettings.hideifincart;
-  	var xsdisplaycompareatprice = xsellSettings.displaycompareatprice;
-  	var xsdisplaysalebadge = xsellSettings.displaysalebadge;
-  	var xsdisplaypricevarieslabel = xsellSettings.displaypricevarieslabel;
-  	var xsdisplayvendor = xsellSettings.displayvendor;
-
-    // put output code here
-
+     // settings from GUI
+    	var xsmustbeavailable = xsellSettings.xsmustbeavailable;
+    	var xshideifincart = xsellSettings.xshideifincart;
+    	var xsdisplaycompareatprice = xsellSettings.xsdisplaycompareatprice;
+    	var xsdisplaysalebadge = xsellSettings.xsdisplaysalebadge;
+    	var xsdisplaypricevarieslabel = xsellSettings.xsdisplaypricevarieslabel;
+    	var xsdisplayvendor = xsellSettings.xsdisplayvendor;
+      // START HERE
+      var xsimagesize = 'large';
         var xscompareatprice = '';
         var xscompareatpricestring = '';
         var xssalepricestring = '';
@@ -314,7 +298,7 @@ var xsappinitfrontend = function(){
             {
               if(!xsproductdata.price_varies && (xsproductdata.compare_at_price > xsproductdata.price))
               {
-                  xscompareatprice = xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
+                  xscompareatprice = xsellLib.xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
                   xscompareatpricestring = '<s class="product-card__regular-price">' + xscompareatprice + '</s>';
                   xssalepricestring = '<span class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>' + xsprice;
                   xspriceoutput = '<div class="product-card__price">' + xspricevarieslabel +  '<span class="visually-hidden">' + xsprice + '</span>' + xscompareatpricestring + ' ' +xssalepricestring + '</div>'; }
@@ -356,6 +340,5 @@ var xsappinitfrontend = function(){
 
       }
     }
-  }
 
 </script>

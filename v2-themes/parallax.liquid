@@ -262,23 +262,22 @@ var xsappinitfrontend = function(){
   }
 var addThemeCustomization = function(){
  xsellLib.customBuildxsellsoutput = function(xsellitems, numproducts){
-     	// put output code here
-      // START HERE
-    var xsimagesize = 'compact';
-  	var xsmustbeavailable = xsellSettings.mustbeavailable;
-  	var xshideifincart = xsellSettings.hideifincart;
-
-  	var xsdisplaycompareatprice = xsellSettings.displaycompareatprice;
-  	var xsdisplaysalebadge = xsellSettings.displaysalebadge;
-  	var xsdisplaypricevarieslabel = xsellSettings.displaypricevarieslabel;
-  	var xsdisplayvendor = xsellSettings.displayvendor;
+   // settings from GUI
+  	var xsmustbeavailable = xsellSettings.xsmustbeavailable;
+  	var xshideifincart = xsellSettings.xshideifincart;
+  	var xsdisplaycompareatprice = xsellSettings.xsdisplaycompareatprice;
+  	var xsdisplaysalebadge = xsellSettings.xsdisplaysalebadge;
+  	var xsdisplaypricevarieslabel = xsellSettings.xsdisplaypricevarieslabel;
+  	var xsdisplayvendor = xsellSettings.xsdisplayvendor;
+    // START HERE
+    var xsimagesize = 'large';
                 var xsvendoroutput = '';
       			var xspricevarieslabel = '';
                 var xscompareatprice = '';
                 var xscompareatpricestring = '';
               	var xssalepricestring = '';
               	var xspriceoutput = '';
-                var xssalebadge = '<span class="badge badge--sale"><span class="badge__text">SALE</span></span>';
+                var xssalebadge = '<div class="sale_banner">Sale</div>';
               	var xssalebadgeoutput = '';
                 var saleclass = ' xs-sale';
                 var fromlabel = '<em>from</em>';
@@ -365,7 +364,7 @@ var addThemeCustomization = function(){
         	            {
             	            xscompareatprice = xsellLib.xsformatMoney(xsproductdata.compare_at_price_max, '{{ shop.money_format }}');
                           xscompareatpricestring = ' <span class="was_price">' + xscompareatprice + '</span>';
-                          xspriceoutput = '<span class="price .cs-sale" itemprop="price">' + xspricevarieslabel + xsprice + xscompareatpricestring + '</span>';
+                          xspriceoutput = '<span class="price .cs-sale" itemprop="price">' + xspricevarieslabel + '<span style="color:#FF3C4F">'+xsprice+'</span>' + xscompareatpricestring + '</span>';
                       }
                     }
 
@@ -388,15 +387,16 @@ var addThemeCustomization = function(){
                     xsellLib.xselloutput += '<div class="four columns' + alphaomega + 'thumbnail' + evenodd + '" data-xsorder="' + xsproductdata["order"] + '">'
                                          + '<a href="' + xsproductdata.url + '" title="' + xsproductdata.title + '" itemprop="url">'
        			                    + '<div class="relative product_image">'
-                    				+'<div class="product_container swap-true">'
+                    				+'<div class="product_container swap-false">'
                     				+ '<div class="image__container">'
-                                    + '<img class="lazyload lazyload--fade-in" src="' + csimage + '" alt="' + xsproductdata.title + '"/>'
-                    				+ '<div class="image__container">'
-              						+ '<img src="'+csimagetwo+'" class="secondary lazyload" />'
-            						+ '</div>'
-  									+ '</div>'
+                            + '<img class="lazyload lazyload--fade-in" src="' + csimage + '" alt="' + xsproductdata.title + '"/>'
+                    				//+ '<div class="image__container">'
+              						 // + '<img src="'+csimagetwo+'" class="secondary lazyload" />'
+            						  //  + '</div>'
+  									        + '</div>'
                                     + '</div></div>'
                                     + '<div class="info">'
+                    				+ xssalebadgeoutput
                                     + '<span class="title" itemprop="name">' + xsproductdata.title + '</span>'
                                     + '<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id + '"></span>'
                                     + '<br /><span class="price ">'

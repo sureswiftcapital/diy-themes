@@ -24,18 +24,67 @@ NOTE: variant image & hover class break responsiveness-->
 {% endfor %}
 
 {% if shop.metafields.shopCrosssell.settings != null %}
+<script>
+  function slickCarouselLoad(){
+  $('.cross-sell').slick({
+  arrows: true,
+  dots: false,
+  infinite: false,
+  speed: 300,
+  autoplay:false,
+  slidesToShow: 4,
+  slidesToScroll: 2,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 2,
+        infinite: true,
+        dots: false
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2
 
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+
+
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+  });
+  }
+</script>
 <style type="text/css">
 /*#cross-sell {margin: 20px 0; margin-right: 2em}
 .cross-sell {text-align: center;}
-.cs-tac {text-align: center;}
-#cross-sell .grid__item {float: none;display: inline-block;vertical-align: text-top;}*/
+.cs-tac {text-align: center;}*/
+#cross-sell  .cross-sell .grid__item{margin-left:0px; padding:10px;}
+#cross-sell .slick-prev {left:-20px;top:35%;}
+#cross-sell .slick-next{right:-20px; top:35%;}
+.cs-clearfix:after {content: "."; visibility: hidden; display: block; height: 0; clear: both;}
+#cross-sell .product-related{margin-left:30px;margin-right:30px;}
 
 </style>
-
+{{ 'xs-slick.css' | asset_url | stylesheet_tag }}
+{{ 'xs-slick-theme.css' | asset_url | stylesheet_tag }}
 <div class="cs-clearfix"></div>
 <div id="cross-sell"></div>
 <div class="cs-clearfix"></div>
+<script src="{{ 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js'}}" defer="defer"></script>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -207,16 +256,15 @@ var xsappinitfrontend = function(){
   }
 var addThemeCustomization = function(){
  xsellLib.customBuildxsellsoutput = function(xsellitems, numproducts){
-     	// put output code here
-      // START HERE
+   // settings from GUI
+  	var xsmustbeavailable = xsellSettings.xsmustbeavailable;
+  	var xshideifincart = xsellSettings.xshideifincart;
+  	var xsdisplaycompareatprice = xsellSettings.xsdisplaycompareatprice;
+  	var xsdisplaysalebadge = xsellSettings.xsdisplaysalebadge;
+  	var xsdisplaypricevarieslabel = xsellSettings.xsdisplaypricevarieslabel;
+  	var xsdisplayvendor = xsellSettings.xsdisplayvendor;
+    // START HERE
     var xsimagesize = 'large';
-  	var xsmustbeavailable = xsellSettings.mustbeavailable;
-  	var xshideifincart = xsellSettings.hideifincart;
-
-  	var xsdisplaycompareatprice = xsellSettings.displaycompareatprice;
-  	var xsdisplaysalebadge = xsellSettings.displaysalebadge;
-  	var xsdisplaypricevarieslabel = xsellSettings.displaypricevarieslabel;
-  	var xsdisplayvendor = xsellSettings.displayvendor;
                 var xsvendoroutput = '';
       			var xspricevarieslabel = '';
                 var xscompareatprice = '';
@@ -302,13 +350,13 @@ var addThemeCustomization = function(){
                       }
                     }
 
-                    xsellLib.xselloutput += '<div class="grid__item large--one-third medium--one-third  animation-sequence-1 visible" data-xsorder="' + xsproductdata["order"] + '">'
+                    xsellLib.xselloutput += '<div class="grid__item large--one-third medium--one-third" data-xsorder="' + xsproductdata["order"] + '">'
                                     + '<a href="' + xsproductdata.url + '" tabindex="0">'
-                                    + '<div class="cell-wrapper">'
+                                    //+ '<div class="">'
                                     // + saleBadge
                                     //+ '<img src="' + csimagetwo + '" alt="' + xsproductdata.title + '" class="is-variant">'
-                                    + '<img src="' + csimage + '" alt="' + xsproductdata.title + '" class="">'
-                                    + '</div>'
+                                    + '<img class="image" src="' + csimage + '" alt="' + xsproductdata.title + '" class="">'
+                                   // + '</div>'
                                     + '<span class="product_image_caption text-center">'
                                     + '<h6>' + xsproductdata.title + '</h6>'
                                     + xspriceoutput
@@ -319,7 +367,10 @@ var addThemeCustomization = function(){
         if(xsellLib.xselloutput != '')
         {
                 jQueryxsApp('#cross-sell').append('<section class="product-related"><h2 class="text-center">' + xsellLib.settings.xstitle + '</h2><div class="grid--products grid--full cross-sell">' + xsellLib.xselloutput + '</div>');
-          }
+                setTimeout(function(){
+                  slickCarouselLoad();
+				}, 700);
+        }
 
 
      //end

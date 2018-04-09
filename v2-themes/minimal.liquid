@@ -4,6 +4,13 @@ Editing this file could break Cross Sell app functionality
 version: xsell-v.2.0.0 [Do not remove version info]
 support webite: http://help.csell.co
 {% endcomment %}
+
+{% comment %}
+This snippet requires the addition of two css files to assets of theme:
+- xs-slick-theme.css
+- xs-slick.css
+{% endcomment %}
+
 {% if template contains 'product' %}
   	{% assign cscurrentpage = 'product' %}
 {% endif %}
@@ -22,17 +29,71 @@ support webite: http://help.csell.co
 {% endfor %}
 
 {% if shop.metafields.shopCrosssell.settings != null %}
+<script>
+  function slickCarouselLoad(){
+  $('.cross-sell').slick({
+  arrows: true,
+  dots: false,
+  infinite: false,
+  speed: 300,
+  autoplay:true,
+  slidesToShow: 4,
+  slidesToScroll: 2,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 2,
+        infinite: true,
+        dots: false
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+                settings: "unslick",
 
+        slidesToShow: 2,
+        slidesToScroll: 2
+
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        settings: "unslick",
+        slidesToShow: 1,
+        slidesToScroll: 1
+
+
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+  });
+  }
+</script>
 <style type="text/css">
 
 #cross-sell .grid__item {float: none;display: inline-block;vertical-align: text-top;text-align: center;}
-
+/* slick carousel fixes */
+  .cross-sell{margin-left:20px; margin-right:20px}
+#cross-sell .slick-dots{bottom:-46px;}
+#cross-sell .slick-prev {top:35%;}
+#cross-sell .slick-next{top:35%;}
+  #cross-sell-title{text-align:center;}
 </style>
+{{ 'xs-slick.css' | asset_url | stylesheet_tag }}
+{{ 'xs-slick-theme.css' | asset_url | stylesheet_tag }}
 <hr class="hr--clear hr--small">
 <div class="section-header section-header--medium">
-<h4 id="cross-sell-title" class="section-header__title"></h4>
+<h2 id="cross-sell-title" class="section-header__title"></h2>
 </div>
 <div id="cross-sell"></div>
+<script src="{{ 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js'}}" defer="defer"></script>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -49,7 +110,7 @@ support webite: http://help.csell.co
     xsellSettings.money_format = '{{shop.money_format}}';
     xsellSettings.xsmainproducthandle = '{{ product.handle }}';
     xsellSettings.currentpagetype = '{{ cscurrentpage }}';
-    xsellSettings.xsimagesize = 'large';
+    xsellSettings.xsimagesize = 'medium';
 
   	xsellSettings.xsrandomizeproductpage = xsellSettings.crosssellsettings[0]['randomizeproductpage'];
   	xsellSettings.xsrandomizecartpage = xsellSettings.crosssellsettings[0]['randomizecartpage'];
@@ -204,16 +265,15 @@ var xsappinitfrontend = function(){
   }
 var addThemeCustomization = function(){
  xsellLib.customBuildxsellsoutput = function(xsellitems, numproducts){
-     	// put output code here
-      // START HERE
+   // settings from GUI
+  	var xsmustbeavailable = xsellSettings.xsmustbeavailable;
+  	var xshideifincart = xsellSettings.xshideifincart;
+  	var xsdisplaycompareatprice = xsellSettings.xsdisplaycompareatprice;
+  	var xsdisplaysalebadge = xsellSettings.xsdisplaysalebadge;
+  	var xsdisplaypricevarieslabel = xsellSettings.xsdisplaypricevarieslabel;
+  	var xsdisplayvendor = xsellSettings.xsdisplayvendor;
+    // START HERE
     var xsimagesize = 'large';
-  	var xsmustbeavailable = xsellSettings.mustbeavailable;
-  	var xshideifincart = xsellSettings.hideifincart;
-
-  	var xsdisplaycompareatprice = xsellSettings.displaycompareatprice;
-  	var xsdisplaysalebadge = xsellSettings.displaysalebadge;
-  	var xsdisplaypricevarieslabel = xsellSettings.displaypricevarieslabel;
-  	var xsdisplayvendor = xsellSettings.displayvendor;
                 var xsvendoroutput = '';
       			var xspricevarieslabel = '';
             var xscompareatprice = '';
@@ -315,6 +375,9 @@ var addThemeCustomization = function(){
     if(xsellLib.xselloutput != '')
       {     jQueryxsApp('#cross-sell-title').append(xsellLib.settings.xstitle);
             jQueryxsApp('#cross-sell').append('<div class="grid-uniform grid-link__container cross-sell">' + xsellLib.xselloutput + '</div>');
+            setTimeout(function(){
+              slickCarouselLoad();
+  				  }, 500);
       }
      //end
     }

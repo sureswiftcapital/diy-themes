@@ -228,15 +228,15 @@ var xsappinitfrontend = function(){
   }
 var addThemeCustomization = function(){
  xsellLib.customBuildxsellsoutput = function(xsellitems, numproducts){
-     	// put output code here
-      // START HERE
+   // settings from GUI
+  	var xsmustbeavailable = xsellSettings.xsmustbeavailable;
+  	var xshideifincart = xsellSettings.xshideifincart;
+  	var xsdisplaycompareatprice = xsellSettings.xsdisplaycompareatprice;
+  	var xsdisplaysalebadge = xsellSettings.xsdisplaysalebadge;
+  	var xsdisplaypricevarieslabel = xsellSettings.xsdisplaypricevarieslabel;
+  	var xsdisplayvendor = xsellSettings.xsdisplayvendor;
+    // START HERE
     var xsimagesize = 'large';
-  	var xsmustbeavailable = xsellSettings.mustbeavailable;
-  	var xshideifincart = xsellSettings.hideifincart;
-  	var xsdisplaycompareatprice = xsellSettings.displaycompareatprice;
-  	var xsdisplaysalebadge = xsellSettings.displaysalebadge;
-  	var xsdisplaypricevarieslabel = xsellSettings.displaypricevarieslabel;
-  	var xsdisplayvendor = xsellSettings.displayvendor;
     var xsvendoroutput = '';
     var xspricevarieslabel = '';
     var xscompareatprice = '';
