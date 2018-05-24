@@ -309,29 +309,19 @@ var addThemeCustomization = function(){
                       }
                     }
 
-                    xsellLib.xselloutput += '<div class="product-item columns large-3 has-hover" data-xsorder="' + xsproductdata["order"] + '">'
-                                + '<div class="image-wrapper">'
-                                + '<a class="image-link" href="'+xsproductdata.url+'">'
-                                + '<img src="'+csimagetwo+'" alt="'+xsproductdata.url+'" class="hover-image" />'
-                                + '<img src="'+csimage+'" alt="'+xsproductdata.url+'" />'
-                                + '</a>'
-                    			+ '</div>'
-                                + '<div class="caption">'
-                                + '<p class="title">'
-                                + '<a href="xsproductdata.url">'+xsproductdata.title+'</a>'
-                                +  '</p>'
-                                + '</div>'
-                                /*+ '<a href="' + xsproductdata.url +'">'
-                  			      + xssalebadgeoutput
-                                + '<img src="' + csimage + '" />'
-                                + '</a>'
-                                + '</div>'
-                                + '<div class="producttitle">'
-                                + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
-                                + '</div>'
-                  			      + xsvendoroutput
-                              + xspriceoutput*/
-                                + '</div>';
+                    xsellLib.xselloutput += '<div class="product-item columns large-3" data-xsorder="' + xsproductdata["order"] + '">'
+                                  + '<div class="image-wrapper">'
+                                  + '<a href="' + xsproductdata.url +'">'
+                                  + '<img src="' + csimage + '" alt="' + xsproductdata.title + '" />'
+                                  + '</a>'
+                                  + '</div>'
+                                  + '<div class="caption">'
+                                  + '<p class="title">'
+                                  + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
+                                  + '</p>'
+                                  + xspriceoutput
+                                  + '</div>'
+                                  + '</div>';
 				}
 				if(xsellLib.xselloutput != '')
 				{
