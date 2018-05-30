@@ -6,7 +6,6 @@
   {% assign cssmartcart = 'on' %}
 {% endif %}
 
-
 {% if shop.metafields.shopCrosssell.settings != null %}
 
 <script type="text/javascript" charset="utf-8">
@@ -29,7 +28,7 @@
 
     //objects
     var xsellitems = {};
-    var xsellproductdata = [];    
+    var xsellproductdata = [];
 
     //settings
     var xsmainproducthandle = '{{ product.handle }}';
@@ -45,7 +44,7 @@
     var xsdisplaypricevarieslabel = true;
     var xsdisplayvendor = false;
 
-    //text and labels 
+    //text and labels
     var xselloutput = '';
     var xstmpdata = '';
     var xstmptitle = '';
@@ -126,6 +125,9 @@
   #cross-sell h4 {float: none; text-align: center;}
 .cross-sell {text-align: center;}
 .cross-sell .product {float: none;display: inline-block;}
+#cross-sell .cross-sell img{max-height:272.5px;}
+#cross-sell .featured-collection figure .image-cell a.product-image img, .simple-collection figure .image-cell a.product-image img, .collection figure .image-cell a.product-image img{width:initial;}
+
 </style>
 
 <div id="cross-sell" class="simple-collection"></div>
@@ -253,7 +255,7 @@
 
               // 2. For each element of data, create a Deferred push push it to the array
               for(var i = 0; i < xsdata.length; i++){
-          
+
                   //don't process this cross-sell if it is in the basket
                     if(xshideifincart)
                     {
@@ -283,7 +285,7 @@
               // 3.1. Function called by the loop to create a Deferred object (data is numeric)
               function processItem(xsitem) {
 
-                var xsorder = xsitem["order"];                        
+                var xsorder = xsitem["order"];
 
                 // 3.1.1. Create the Deferred object and output some debug
                 var dfd = jQueryxsApp.Deferred();
@@ -344,7 +346,7 @@
                     }
 
                 {% endif %}
-              
+
                 if(xsrandomize)
                 {
                   //randomize the products
@@ -391,14 +393,14 @@
                       var csimage = 'https://cdn.shopify.com/s/images/admin/no-image-'+xsimagesize+'.gif';
                       var csimagetwo = csimage;
                     }
-                  
+
                     //Display Vendor
                      if(xsdisplayvendor)
-                     {                              
+                     {
                        xsvendoroutput = '<span class="vendor"><a title="' + xsproductdata.vendor + '" href="/collections/vendors?q=' + xsproductdata.vendor + '">' + xsproductdata.vendor + '</a></span>';
                      }
-                  
-                  
+
+
 
                     //Build Price Output
                     xsprice = xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
@@ -439,7 +441,7 @@
                       }
                       else
                       {
-                       xssalebadgeoutput = ''; 
+                       xssalebadgeoutput = '';
                       }
                     }
 
@@ -469,7 +471,7 @@
         {
                 jQueryxsApp('#cross-sell').append('<div class="wrapper"><header><h4>' + xstmptitle + '</h4></header><div class="product-container cross-sell">' + xselloutput + '</div></div>');
           }
-        } 
+        }
 
       //Set the maximum number of items that should be shown?
         if (xstmpdata.length && (xstmpdata[0] !== ''))
