@@ -29,7 +29,7 @@ PS: you're on v1 of Cross Sell! Consider upgrading to v2 for automated updated a
 {% endif %}
 {% if template == 'cart' %}
   	{% assign cscurrentpage = 'cart' %}
-	{% assign cssmartcart = 'on' %}
+	{% assign cssmartcart = 'off' %}
 {% endif %}
 
 {% if shop.metafields.shopCrosssell.settings != null %}
@@ -41,13 +41,13 @@ PS: you're on v1 of Cross Sell! Consider upgrading to v2 for automated updated a
   infinite: false,
   speed: 300,
   autoplay:true,
-  slidesToShow: 3,
-  slidesToScroll: 1,
+  slidesToShow: 5,
+  slidesToScroll: 2,
   responsive: [
     {
       breakpoint: 1024,
       settings: {
-        slidesToShow: 3,
+        slidesToShow: 5,
         slidesToScroll: 1,
         infinite: true,
         dots: false
@@ -98,25 +98,7 @@ PS: you're on v1 of Cross Sell! Consider upgrading to v2 for automated updated a
   /*#cross-sell { margin-top: 20px; padding: 20px 0; float: left; text-align: center; }
   .cross-sell .compare { color: #ed4e4e; text-decoration: line-through; margin-left: 5px;}*/
 
-  #cross-sell, #cross-sell-mobile {
-      margin-top: 30px;
-  }
 
-  #cross-sell .desktop-3.tablet-half.mobile-half {
-      min-height: 315px;
-
-  }
-
-  #cross-sell-mobile {
-      display: none;
-  }
-
-  @media screen and (max-width: 740px){
-    #cross-sell-mobile{  display: block; }
-    #cross-sell-mobile .desktop-3.tablet-half.mobile-half {
-      min-height: 350px;
-    }
-  }
   .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
   /* slick carousel fixes */
   #cross-sell .cross-sell{padding-left: 20px; padding-right: 20px;}
@@ -563,7 +545,7 @@ PS: you're on v1 of Cross Sell! Consider upgrading to v2 for automated updated a
     				else {
       				  cycle = '';
     				}
-                    xselloutput += '<div class="desktop-3 '+cycle+' tablet-half mobile-half" id="prod-' + xsproductdata.id + '" data-alpha="' + xsproductdata.title + '" data-price="' + xsproductdata.price + '">'
+                    xselloutput += '<div class="desktop-2 '+cycle+' tablet-half mobile-half" id="prod-' + xsproductdata.id + '" data-alpha="' + xsproductdata.title + '" data-price="' + xsproductdata.price + '">'
                                 + '<div class="prod-image">'
                                 + '<a href="' + xsproductdata.url + '" title="' + xsproductdata.title + '">'
                                 + '<img src="' + csimage + '" alt="' + xsproductdata.title + '" />'
@@ -572,8 +554,9 @@ PS: you're on v1 of Cross Sell! Consider upgrading to v2 for automated updated a
                                 +'<div class="product-info">'
                                     + '<div class="product-info-inner">'
                                       + '<a href="' + xsproductdata.url + '">'
-                                        //+ '<h4>' + xsproductdata.vendor + '</h4>'
                                         + '<h3>' + xsproductdata.title + '</h3>'
+                                        + '<h4>' + xsproductdata.vendor + '</h4>'
+
                                       + '</a>'
                                         + '<div class="price">' + xspriceoutput + '</div>'
                                     + '</div>'
@@ -582,7 +565,7 @@ PS: you're on v1 of Cross Sell! Consider upgrading to v2 for automated updated a
 				}
 				if(xselloutput != '')
 				{
-                	jQueryxsApp('#cross-sell').append('<h2 style="text-align:center;">' + xstmptitle + '</h2><div class="desktop-12 tablet-6 mobile-3 cross-sell">' + xselloutput + '</div>');
+                	jQueryxsApp('#cross-sell').append('<div class="section-title lines tablet-6 desktop-12"><h2 style="text-align:center;">' + xstmptitle + '</h2></div><div class="desktop-12 tablet-6 mobile-3 cross-sell">' + xselloutput + '</div>');
       			  // output xsells for mobile
                   //xsellmobiledata = xsellmobiledata.concat(xselloutput);
 				    setTimeout(function(){
