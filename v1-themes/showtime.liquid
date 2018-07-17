@@ -75,7 +75,7 @@ var initXSCarousel = function (){
 
     //settings
     var xsmainproducthandle = '{{ product.handle }}';
-    var xsimagesize = 'compact';
+    var xsimagesize = 'large';
     var xsrandomizeproductpage = false;
     var xsrandomizecartpage = false;
     var xsmustbeavailable = true;
@@ -500,34 +500,34 @@ var initXSCarousel = function (){
                     }
 
                     xselloutput += '<div data-xsorder="' + xsproductdata["order"] + '">'
-                                + '<div class="main_box">'
-                                + '<div class="box_1">'
-                                + '<div class="product-image">'
-                                + '<a href="'+xsproductdata.url+'"><img src="' + csimage + '" /></a>'
-								+ '</div></div>'
-                                +'<div class="desc">'
-                                + '<h5><a href="'+xsproductdata.url+'">'+xsproductdata.title+'</a></h5>'
-                                +'<div class="price">'+xspriceoutput+'</div>'
-                                +'</div>'
-                                +'</div></div>';
-                                /*+ '<div class="image">'
-                                + '<a href="' + xsproductdata.url +'">'
-                  			      + xssalebadgeoutput
-                                + '</a>'
-                                + '</div>'
-                                + '<div class="producttitle">'
-                                + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
-                                + '</div>'
-                  			      + xsvendoroutput
-                              + xspriceoutput*/
+                            + '<div class="main_box">'
+                            + '<div class="box_1">'
+                            + '<div class="product-image">'
+                            + '<a href="'+xsproductdata.url+'"><img src="' + csimage + '" /></a>'
+            				+ '</div></div>'
+                            +'<div class="desc">'
+                            + '<h5><a href="'+xsproductdata.url+'">'+xsproductdata.title+'</a></h5>'
+                            +'<div class="price">'+xspriceoutput+'</div>'
+                            +'</div>'
+                            +'</div></div>';
+                            /*+ '<div class="image">'
+                            + '<a href="' + xsproductdata.url +'">'
+                          + xssalebadgeoutput
+                            + '</a>'
+                            + '</div>'
+                            + '<div class="producttitle">'
+                            + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
+                            + '</div>'
+                          + xsvendoroutput
+                          + xspriceoutput*/
 				}
 				if(xselloutput != '')
 				{
                 	jQueryxsApp('#cross-sell').append('<h3 id="xs-title">' + xstmptitle + '</h3><div class="carosel product_c"><div class="row"><div class="cross-sell owl-carousel">' + xselloutput + '</div></div></div>');
                     //code before the pause
-                    setTimeout(function(){
-                    initXSCarousel();
-                    }, 500);
+                    $( window ).on( "load", function() {
+                      initXSCarousel();
+                    });
 
 
                 }
@@ -571,5 +571,5 @@ var initXSCarousel = function (){
 <script>
 // loads the carousel from scripts.js.liquid and starts it after page has loaded (given id has to not be empty for fn to run)
 $(window).load(function(){
-console.log('xsell works')});
+//console.log('xsell works')});
 </script>
