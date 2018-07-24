@@ -449,7 +449,10 @@
                                   + '<span class="grid-link__image grid-link__image--product">'
                                   + xssalebadgeoutput
                                   + '<span class="grid-link__image-centered">'
-                                  + '<img src="' + csimage + '" alt="' + xsproductdata.title + '"/>'
+                                  +'<div class="reveal">'
+                    						+'<img src="'+csimage+'" alt="">'
+                    						+'<img class="hidden" src="'+csimagetwo+'" alt="''" />'
+                  						+'</div>'
                                   + '</span></span>'
                                   + '<p class="grid-link__title">' + xsproductdata.title + '</p>'
                                   // + xsvendoroutput
