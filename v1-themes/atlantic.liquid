@@ -29,7 +29,7 @@
 
 	  //objects
     var xsellitems = {};
-    var xsellproductdata = [];    
+    var xsellproductdata = [];
 
     //settings
     var xsmainproducthandle = '{{ product.handle }}';
@@ -45,7 +45,7 @@
     var xsdisplaypricevarieslabel = false;
     var xsdisplayvendor = true;
 
-    //text and labels 
+    //text and labels
     var xselloutput = '';
     var xstmpdata = '';
     var xstmptitle = '';
@@ -253,7 +253,7 @@
 
               // 2. For each element of data, create a Deferred push push it to the array
               for(var i = 0; i < xsdata.length; i++){
-          
+
                   //don't process this cross-sell if it is in the basket
                     if(xshideifincart)
                     {
@@ -283,7 +283,7 @@
               // 3.1. Function called by the loop to create a Deferred object (data is numeric)
               function processItem(xsitem) {
 
-                var xsorder = xsitem["order"];          		          
+                var xsorder = xsitem["order"];
 
                 // 3.1.1. Create the Deferred object and output some debug
                 var dfd = jQueryxsApp.Deferred();
@@ -344,7 +344,7 @@
                     }
 
                 {% endif %}
-              
+
               	if(xsrandomize)
                 {
                   //randomize the products
@@ -389,14 +389,14 @@
                       var csimage = 'https://cdn.shopify.com/s/images/admin/no-image-'+xsimagesize+'.gif';
                       var csimagetwo = csimage;
                     }
-                  
+
                   	//Display Vendor
                      if(xsdisplayvendor)
-                     {                              
+                     {
                        xsvendoroutput = '<a href="/collections/vendors?q=' + xsproductdata.vendor + '">'+ xsproductdata.vendor +'</a>';
                      }
-                  
-                  
+
+
 
                     //Build Price Output
                     xsprice = xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
@@ -437,30 +437,30 @@
                       }
                       else
                       {
-                       xssalebadgeoutput = ''; 
+                       xssalebadgeoutput = '';
                       }
                     }
 
                     xselloutput += '<li class="product product-' + xsproductdata.id +'" data-xsorder="' + xsproductdata["order"] + '">'
-                              + '<div class="product-inner">'
-                              + '<figure>'
-                              + '<img src="' + csimage + '" alt="' + xsproductdata.title + '"/>'
-                              + '<a href="' + xsproductdata.url +'"></a>'
-                              + '</figure>'
-                              + '<p class="brand">'
-                              + xsvendoroutput
-                              + '<p>'
-                              + '<p class="title">'
-                              + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
-                              + '</p>'
-                              + xspriceoutput
-                              + '<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id +'"></span>'
-                              + '</div>'
-                              + '</li>';
+                  + '<div class="product-inner">'
+                  + '<figure>'
+                  + '<img src="' + csimage + '" alt="' + xsproductdata.title + '"/>'
+                  + '<a href="' + xsproductdata.url +'"></a>'
+                  + '</figure>'
+                  + '<p class="brand">'
+                  + xsvendoroutput
+                  + '<p>'
+                  + '<p class="title">'
+                  + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
+                  + '</p>'
+                  + xspriceoutput
+                  + '<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id +'"></span>'
+                  + '</div>'
+                  + '</li>';
 				}
         if(xselloutput != '')
         {
-                jQueryxsApp('#cross-sell').append('<h1 class="section-title section-border">' + xstmptitle + '</h1><ul class="product-list cross-sell">' + xselloutput + '</ul>');
+                jQueryxsApp('#cross-sell').append('<section class="related-products"><h1 class="section-title section-border">' + xstmptitle + '</h1><ul class="product-list cross-sell">' + xselloutput + '</ul></section>');
           }
         }
 
