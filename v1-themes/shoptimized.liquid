@@ -29,7 +29,7 @@
 
 	  //objects
     var xsellitems = {};
-    var xsellproductdata = [];    
+    var xsellproductdata = [];
 
     //settings
     var xsmainproducthandle = '{{ product.handle }}';
@@ -44,7 +44,7 @@
     var xsdisplaypricevarieslabel = false;
     var xsdisplayvendor = true;
 
-    //text and labels 
+    //text and labels
     var xselloutput = '';
     var xstmpdata = '';
     var xstmptitle = '';
@@ -122,7 +122,22 @@
 </script>
 
 <style type="text/css">
- 
+#cross-sell .grid__image{
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+#cross-sell img{vertical-align:middle;
+max-height: 240px;
+max-width: 240px;}
+#cross-sell .h5{
+color: #b1b1b1 !important;
+}
+#cross-sell a, .text-link{
+margin-top:5px !important;
+font-size:16px !important;
+color: #b1b1b1 !important;
+}
 </style>
 
 <hr/>
@@ -251,7 +266,7 @@
 
               // 2. For each element of data, create a Deferred push push it to the array
               for(var i = 0; i < xsdata.length; i++){
-          
+
                   //don't process this cross-sell if it is in the basket
                   if( jQueryxsApp.inArray(xsdata[i].handle, cartitems) == -1)
                   {
@@ -270,7 +285,7 @@
               // 3.1. Function called by the loop to create a Deferred object (data is numeric)
               function processItem(xsitem) {
 
-                var xsorder = xsitem["order"];          		          
+                var xsorder = xsitem["order"];
 
                 // 3.1.1. Create the Deferred object and output some debug
                 var dfd = jQueryxsApp.Deferred();
@@ -331,7 +346,7 @@
                     }
 
                 {% endif %}
-              
+
               	if(xsrandomize)
                 {
                   //randomize the products
@@ -354,7 +369,7 @@
                 var saleclass = ' xs-sale';
                 var fromlabel = '<em>from</em>';
                 var saveBadge = '';
-                var saveprice = ''; 
+                var saveprice = '';
                 var saveAmountBadge = '';
 
                 var xsprice = '';
@@ -379,14 +394,14 @@
                       var csimage = 'https://cdn.shopify.com/s/images/admin/no-image-'+xsimagesize+'.gif';
                       var csimagetwo = csimage;
                     }
-                  
+
                   	//Display Vendor
                      if(xsdisplayvendor)
-                     {                              
+                     {
                        xsvendoroutput = '<div class="xs-vendor-name"><a href="' + xsproductdata.url +'">' + xsproductdata.vendor + '</a></div>';
                      }
-                  
-                  
+
+
 
                     //Build Price Output
                     xsprice = xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
@@ -405,7 +420,7 @@
                       	}
                     }
 
-                    xspriceoutput = '<span class="price">' + xsprice + '</span>';
+                    xspriceoutput = '<span class="price no-compare-price"><p>' + xsprice + '</p></span>';
 
                     if(xsdisplaycompareatprice)
                     {
@@ -419,25 +434,23 @@
                     }
 
                     //Show Sale Badge Output
-                    if(xsdisplaysalebadge)
-                    {
-                      if(xsproductdata.compare_at_price > xsproductdata.price)
-                      {
+                    if(xsdisplaysalebadge) {
+                      if(xsproductdata.compare_at_price > xsproductdata.price) {
                         xssalebadgeoutput = xssalebadge;
                         saveBadge = '<div class="save-badge4"> On Sale <br></div>';
                         saveprice = Shopify.formatMoney(xsproductdata.compare_at_price - xsproductdata.price, '{{ shop.money_format }}');
                         saveAmountBadge = '<div class="save_amount_two">SAVE ' + saveprice + '</div>';
                       }
-                      else
-                      {
-                       xssalebadgeoutput = '';
-                       saveBadge = '';
-                       saveprice = '';
-                       saveAmountBadge = ''; 
+                      else {
+                        xssalebadgeoutput = '';
+                        saveBadge = '';
+                        saveprice = '';
+                        saveAmountBadge = '';
                       }
                     }
 
                     xselloutput += '<div class="grid__item large--one-quarter medium--one-half custom--width-one-half" data-xsorder="' + xsproductdata["order"] + '">'
+                                      + '<div class="grid-item-content">'
                                       + '<div class="grid__product-image text-center">'
                                       + '<a href="' + xsproductdata.url + '" class="grid__image">'
                                       + saveBadge
@@ -446,13 +459,14 @@
                                       + '</a>'
                                       + '</div>'
                                       + '<div class="grid__product-content text-center">'
-                                      + '<div class="price-section price-section-two">'
+                                      + '<div class="price-section">'
                                       + xspriceoutput
-                                      + saveAmountBadge
+                                      //+ saveAmountBadge
                                       + '</div>'
                                       + '<p class="h5">'
                                       + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
                                       + '</p>'
+                                      + '</div>'
                                       + '</div>'
                                       + '</div>';
 				}
