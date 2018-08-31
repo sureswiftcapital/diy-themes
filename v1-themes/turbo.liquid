@@ -12,81 +12,14 @@
 
 {% if shop.metafields.shopCrosssell.settings != null %}
 
-<script>
-  function slickCarouselLoad(){
-  $('.cross-sell').slick({
-  arrows: true,
-  dots: false,
-  infinite: false,
-  speed: 300,
-  autoplay:false,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        infinite: true,
-        dots: false
-      }
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2
-
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1
-
-
-      }
-    }
-    // You can unslick at a given breakpoint now by adding:
-    // settings: "unslick"
-    // instead of a settings object
-  ]
-  });
-  }
-</script>
 <style type="text/css">
-  /*
-  #cross-sell{float:left;clear:both;width:100%;}
-  h3.crossselltitle{margin:25px 0;text-align: center;}
-  .cross-sell{overflow:hidden;list-style-type:none;margin:0;padding:0;clear:both;text-align:center;}
-  .cross-sell *{font-size:13px; text-align:center; padding:0;}
-  .cross-sell h4{border:none;margin:5px 0 0 0;line-height:1.5;}
-  .cross-sell div.image{height:180px;}
-  .cross-sell li{float: none;display:inline-block;vertical-align: text-top;padding:0 0 10px 0;margin:0 14px 30px 0;position:relative;width:172px;}
-  .cross-sell li:last-child{margin-right:0;}
-  .cross-sell li .image{}
-  .cross-sell li .image img{margin:0px 0 10px 0px;float:left;width:100%;}
-  .cross-sell li .producttitle{float:left;padding:5px 0;width:100%;min-height:56px;}
-  .cross-sell li a{text-decoration:none;font-size:115%;line-height:20px;padding:5px;}
-  .cross-sell li .money a{font-size:180%;float:left;text-align:center; padding:5px 0;width:100%;}
-  .cross-sell .xs-vendor-name{padding:5px 0;width:100%;display:inline-block;}
-  .cs-clearfix:after {content: "."; visibility: hidden; display: block; height: 0; clear: both;}
-  */
-  #cross-sell .cross-sell {font-size: inherit!important;}
-  #cross-sell .columns{margin:10px;}
-  .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
-
-
+#cross-sell  .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
+  .cross-sell .product-details{margin-top:10px !important;}
 </style>
-{{ 'xs-slick.css' | asset_url | stylesheet_tag }}
-{{ 'xs-slick-theme.css' | asset_url | stylesheet_tag }}
 
 <div class="cs-clearfix"></div>
 <div id="cross-sell"></div>
 <div class="cs-clearfix"></div>
-<script src="{{ 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js'}}" defer="defer"></script>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -532,45 +465,30 @@
                       }
                     }
 
-                    xselloutput += '<div class="one-third column '+ alphaomega + 'thumbnail' + evenodd + '" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">'
-                      + '<div class="product-wrap">'
-                        + '<div class="relative product_image">'
-                          + '<a href="' + xsproductdata.url + '" itemprop="url">'
-                            +'<div class="image__container" style=" max-width: 400.0px; ">'
-                            + '<img src="' + csimage + '" alt="' + xsproductdata.title + '" class="appear lazyautosizes lazyloaded" style="width: 100%; height: auto; max-width:1290px;" data-sizes="auto" data-src="' + csimage + '" />'
-                            //+ '<img src="' + csimagetwo + '" alt="' + product.title + '" class="secondary lazyload"  data-src="' + csimagetwo + '" />'
-                          +'</div>'
-                          + '</a>'
-                          + '<div class="thumbnail-overlay">'
-                            + '<a href="' + xsproductdata.url + '" itemprop="url" class="hidden-product-link">' + xsproductdata.title + '</a>'
-                            + '<div class="info">'
-                            + '</div>'
-                          + '</div>'
-                          + '<div class="banner_holder">'
-                            + xssalebadgeoutput
-                          + '</div>'
-                        + '</div>'
-                        //+ '<a class="product-info__caption" href="' + xsproductdata.url + '" itemprop="url">'
-                        + '<div class="product-details">'
-                          + '<a href="'+xsproductdata.url+'"><span class="title" itemprop="name">' + xsproductdata.title + '</span></a>'
-                          //+ '<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id + '"></span>'
-                          // + '<span itemprop="brand" class="brand">' + xsproductdata.vendor + '</span>'
-                          + '<span class="price ' + saleclass + '" itemprop="offers" itemscope itemtype="http://schema.org/Offer">'
-                            + '<span> ' + xspriceoutput + ' </span>'
-                            //+ xscompareatpricestring
-                          + '</span>'
-                        + '</div>'
-                        //+ '</a>'
-                      + '</div>'
-                    //+'<div class="jdgm-widget jdgm-preview-badge" data-id='+xsproductdata.id+'>'+xsproductdata.metafields.judgeme.badge+'</div>'
-                    + '</div>';
+                    xselloutput += '<div class="one-sixth column '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
+                                         + '<div class="product-wrap">'
+                                         + '<div class="relative product_image swap-false">'
+                                         +'<a href="'+xsproductdata.url+'" itemprop="url">'
+                                         + '<div class="image__container">'
+                                         +'<img src="'+csimage+'" class="fade-in lazyautosizes lazyloaded">'
+                                         + '</div>'
+                                         +'</a>'
+                                         + '</div>'
+                    					           + '<a class="product-info__caption " href="'+xsproductdata.url+'" itemprop="url">'
+                                         + '<div class="product-details"><span itemprop="brand" class="brand">'
+                    					           + xsvendoroutput
+                						             + '</span><span class="title" itemprop="name">'
+                    					           + xsproductdata.title+'</span>'
+                    					           + '<span class="price "><span class="money">'
+                      				           + xspriceoutput
+                						             + '</span></span>'
+               						               + '</div></a>'
+                                         + '</div>'
+                                         + '</div>';
 				}
 				if(xselloutput != '')
 				{
-          jQueryxsApp('#cross-sell').append('<div class="container"><div class="related-products__title"><h4 class="title center">' + xstmptitle + '</h4><div class="feature_divider"></div></div></div><div class="container related-products--grid"><div itemtype="http://schema.org/ItemList" class="product-list collection-matrix cross-sell">'+xselloutput+'</div></div>');
-          setTimeout(function(){
-               slickCarouselLoad();
-      }, 500);
+          jQueryxsApp('#cross-sell').append('<div class="container"><div class="related-products__title sixteen columns"><h4 class="title center crossselltitle">' + xstmptitle + '</h4><div class="feature_divider"></div></div></div><div class="container related-products--grid"><div class="sixteen columns"><div itemtype="http://schema.org/ItemList" class="product-list clearfix cross-sell">' + xselloutput + '</div></div></div>');
         }
             }
 
