@@ -14,7 +14,10 @@
 
 <style type="text/css">
 #cross-sell  .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
-  .cross-sell .product-details{margin-top:10px !important;}
+#cross-sell .cross-sell .flickity-prev-next-button{background:none;top:60%}
+#cross-sell .container.related-products--grid .product-details .money span{color:red;}
+#cross-sell .cross-sell .xs-compare-at-price span{color:grey !important;}
+
 </style>
 
 <div class="cs-clearfix"></div>
@@ -465,13 +468,16 @@
                       }
                     }
 
-                    xselloutput += '<div class="one-sixth column '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
+                    xselloutput += '<div class="four columns '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
                                          + '<div class="product-wrap">'
                                          + '<div class="relative product_image swap-false">'
                                          +'<a href="'+xsproductdata.url+'" itemprop="url">'
                                          + '<div class="image__container">'
                                          +'<img src="'+csimage+'" class="fade-in lazyautosizes lazyloaded">'
                                          + '</div>'
+                                         //+ '<div class="image__container">'
+                                         //+ '<img src="'+csimagetwo+'"class="secondary lazyloaded">'
+                                         //+ '</div>'
                                          +'</a>'
                                          + '</div>'
                     					           + '<a class="product-info__caption " href="'+xsproductdata.url+'" itemprop="url">'
@@ -479,9 +485,9 @@
                     					           + xsvendoroutput
                 						             + '</span><span class="title" itemprop="name">'
                     					           + xsproductdata.title+'</span>'
-                    					           + '<span class="price "><span class="money">'
+                    					           + '<span class="price "><span class="money"> <span class="money">'
                       				           + xspriceoutput
-                						             + '</span></span>'
+                						             + '</span></span></span>'
                						               + '</div></a>'
                                          + '</div>'
                                          + '</div>';
