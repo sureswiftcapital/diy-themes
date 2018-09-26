@@ -28,6 +28,8 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
 /*.cross-sell .thumbnail {float: none;display: inline-block;vertical-align: text-top;}*/
 .cross-sell .thumbnail .cs-sale {color:#ff5a5f;}
 .cross-sell .sale_banner a {color:#fff;padding-bottom: 0;}
+/* fix for carousel badge short margin*/
+.cross-sell .thumbnail .info{min-height:140px !important;}
 </style>
 <script>
   window.xsellCustom = window.xsellCustom || {};
@@ -115,19 +117,16 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
      xsellLib.xselloutput += '<div class="one-third column' + alphaomega + 'thumbnail' + evenodd + '" data-xsorder="' + xsproductdata["order"] + '">'
                           + '<a href="' + xsproductdata.url + '" title="' + xsproductdata.title + '" itemprop="url">'
                           + '<div class="relative product_image">'
-     				              +'<div class="product_container swap-true">'
+     				              +'<div class="product_container swap-false">'
                    		    + '<div class="image__container">'
                           + '<img class="lazyload lazyload--fade-in" src="' + csimage + '" alt="' + xsproductdata.title + '"/>'
-                   		    + '<div class="image__container">'
-              		     	  + '<img src="'+csimagetwo+'" class="secondary lazyload" />'
-              			      + '</div>'
               			      + '</div>'
                           + '</div></div>'
                           + '<div class="info">'
      				              + xssalebadgeoutput
                           + '<span class="title" itemprop="name">' + xsproductdata.title + '</span>'
                           + '<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id + '"></span>'
-                          + '<br /><span class="price ">'
+                          + '<span class="price ">'
                           + xspriceoutput
                           + '</span>'
                           + '</div>'
@@ -140,6 +139,8 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
     var xsellDiv = document.createElement('div');
     xsellDiv.innerHTML = '<br class="clear" /><br class="clear" /><h4 class="title center">' + xsellLib.settings.xstitle + '</h4><div class="feature_divider"></div><div class="sixteen columns"><div class="products cross-sell" itemtype="http://schema.org/ItemList">' + xsellLib.xselloutput + '</div></div>'; //output here
     document.getElementById('cross-sell').appendChild(xsellDiv);
+    window.SPR.initDomEls('.shopify-product-reviews-badge');
+    window.SPR.loadBadges();
   }
 }
 </script>
