@@ -15,9 +15,11 @@
 <style type="text/css">
 #cross-sell  .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
 #cross-sell .cross-sell .flickity-prev-next-button{background:none;top:60%}
-#cross-sell .container.related-products--grid .product-details .money span{color:red;}
-#cross-sell .cross-sell .xs-compare-at-price span{color:grey !important;}
-
+#cross-sell .one-fifth.column.thumbnail.even{margin-left:15px !important;}
+.cross-sell .product-details{margin-top:15px !important;}
+#cross-sell .flickity-enabled{overflow:initial !important;}
+.cross-sell .flickity-prev-next-button.next{right:-30px !important;}
+.cross-sell .flickity-prev-next-button.previous{left:-30px !important;}
 </style>
 
 <div class="cs-clearfix"></div>
@@ -468,7 +470,7 @@
                       }
                     }
 
-                    xselloutput += '<div class="four columns '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
+                    xselloutput += '<div class="one-fifth column '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
                                          + '<div class="product-wrap">'
                                          + '<div class="relative product_image swap-false">'
                                          +'<a href="'+xsproductdata.url+'" itemprop="url">'
