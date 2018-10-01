@@ -14,12 +14,10 @@
 
 <style type="text/css">
 #cross-sell  .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
-#cross-sell .cross-sell .flickity-prev-next-button{background:none;top:60%}
 #cross-sell .one-fifth.column.thumbnail.even{margin-left:15px !important;}
 .cross-sell .product-details{margin-top:15px !important;}
-#cross-sell .flickity-enabled{overflow:initial !important;}
-.cross-sell .flickity-prev-next-button.next{right:-30px !important;}
-.cross-sell .flickity-prev-next-button.previous{left:-30px !important;}
+.cross-sell .product-details .spr-badge-caption{display:initial !important;}
+#cross-sell .product-list .thumbnail .product-info__caption{margin-top:0px !important;}
 </style>
 
 <div class="cs-clearfix"></div>
@@ -470,34 +468,35 @@
                       }
                     }
 
-                    xselloutput += '<div class="one-fifth column '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
+                    xselloutput += '<div class="one-quarter column '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
                                          + '<div class="product-wrap">'
-                                         + '<div class="relative product_image swap-false">'
+                                         + '<div class="relative product_image swap-true">'
                                          +'<a href="'+xsproductdata.url+'" itemprop="url">'
                                          + '<div class="image__container">'
                                          +'<img src="'+csimage+'" class="fade-in lazyautosizes lazyloaded">'
                                          + '</div>'
-                                         //+ '<div class="image__container">'
-                                         //+ '<img src="'+csimagetwo+'"class="secondary lazyloaded">'
-                                         //+ '</div>'
+                                         + '<div class="image__container">'
+                                         + '<img src="'+csimagetwo+'"class="secondary lazyloaded">'
+                                         + '</div>'
                                          +'</a>'
                                          + '</div>'
-                    					           + '<a class="product-info__caption " href="'+xsproductdata.url+'" itemprop="url">'
+                    					 + '<a class="product-info__caption " href="'+xsproductdata.url+'" itemprop="url">'
                                          + '<div class="product-details"><span itemprop="brand" class="brand">'
-                    					           + xsvendoroutput
-                						             + '</span><span class="title" itemprop="name">'
-                    					           + xsproductdata.title+'</span>'
-                    					           + '<span class="price "><span class="money"> <span class="money">'
-                      				           + xspriceoutput
-                						             + '</span></span></span>'
-               						               + '</div></a>'
+                    					 + xsvendoroutput
+                						 + '</span><span class="title" itemprop="name">'
+                    					 + xsproductdata.title+'</span>'
+                    					 +'<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id + '"></span>'
+                    					 + '<span class="price "><span class="money"> <span class="money">'
+                      				     + xspriceoutput
+                						 + '</span></span></span>'
+               						     + '</div></a>'
                                          + '</div>'
                                          + '</div>';
 				}
 				if(xselloutput != '')
 				{
           jQueryxsApp('#cross-sell').append('<div class="container"><div class="related-products__title sixteen columns"><h4 class="title center crossselltitle">' + xstmptitle + '</h4><div class="feature_divider"></div></div></div><div class="container related-products--grid"><div class="sixteen columns"><div itemtype="http://schema.org/ItemList" class="product-list clearfix cross-sell">' + xselloutput + '</div></div></div>');
-        }
+                }
             }
 
 			//Set the maximum number of items that should be shown?
