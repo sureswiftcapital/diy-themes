@@ -19,6 +19,7 @@ Once created it SHOULD say 'cross-sell-custom.liquid' IF NOT, rename it.
 NOTES REGARDING THEME:
 - if two images are used for hover and they are NOT the same ratio, a possible hover bug will occur. To avoid this,
 use same ratio images OR deactivate secondary image
+- make sure to check the theme's scss to verify grid layouts BEFORE applyihng change to xselloutput
 
 Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check out support site -> https://help.csell.co
 
@@ -28,6 +29,10 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
 <style type="text/css">
   #cross-sell  .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
   #cross-sell .cross-sell .flickity-prev-next-button{background:none;top:60%}
+  #cross-sell .flickity-enabled{overflow:initial;}
+  #cross-sell .flickity-prev-next-button .arrow{fill:black;}
+  .cross-sell .flickity-prev-next-button.previous{left:-30px;}
+  .cross-sell .flickity-prev-next-button.next {right: -30px;}
 </style>
 <script>
   window.xsellCustom = window.xsellCustom || {};
@@ -116,7 +121,7 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
         }
       }
 
-      xsellLib.xselloutput += '<div class="one-fifth column '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
+      xsellLib.xselloutput += '<div class="four columns '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
                            + '<div class="product-wrap">'
                            + '<div class="relative product_image swap-false">'
                            +'<a href="'+xsproductdata.url+'" itemprop="url">'
@@ -133,9 +138,9 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
       					           + xsvendoroutput
   						             + '</span><span class="title" itemprop="name">'
       					           + xsproductdata.title+'</span>'
-      					           + '<span class="price "><span class="money"> <span class="money">'
+      					           + '<span class="price "><span class="money">'
         				           + xspriceoutput
-  						             + '</span></span></span>'
+  						             + '</span></span>'
  						               + '</div></a>'
                            + '</div>'
                            + '</div>';
