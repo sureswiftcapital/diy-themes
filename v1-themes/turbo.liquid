@@ -56,7 +56,7 @@
 
     //display variables
     var xsdisplaycompareatprice = true;
-    var xsdisplaysalebadge = false;
+    var xsdisplaysalebadge = true;
     var xsdisplaypricevarieslabel = false;
     var xsdisplayvendor = false;
 
@@ -369,9 +369,9 @@
                 var xscompareatpricestring = '';
               	var xssalepricestring = '';
               	var xspriceoutput = '';
-                var xssalebadge = '<span class="badge badge--sale"><span class="badge__text">SALE</span></span>';
+                var xssalebadge = '<div class="banner_holder"><div class="sale_banner thumbnail_banner">Sale</div></div>';
               	var xssalebadgeoutput = '';
-                var saleclass = ' xs-sale';
+                var saleclass = 'sale';
                 var fromlabel = '<em>from</em>';
 
                 var xsprice = '';
@@ -420,21 +420,21 @@
                   	//Display Vendor
                      if(xsdisplayvendor)
                      {
-                       xsvendoroutput = '<div class="xs-vendor-name"><a href="' + xsproductdata.url +'">' + xsproductdata.vendor + '</a></div>';
+                       xsvendoroutput = '<span itemprop="brand" class="brand">' + xsproductdata.vendor + '</span>';
                      }
 
 
 
                     //Build Price Output
-                    xsprice = xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
+                    xsprice = xsformatMoney(xsproductdata.price_max, '{{ shop.money_format }}');
 
 
 					//Show price varies label?
                     if(xsdisplaypricevarieslabel)
                     {
-                    	if(xsproductdata.price_varies)
+                    	if(xsproductdata.price_varies && xsproductdata.price_max > 0)
                       	{
-                          xspricevarieslabel = 'From: ';
+                          xspricevarieslabel = '<small><em>From...</em></small>';
                       	}
                       	else
                       	{
@@ -442,23 +442,23 @@
                       	}
                     }
 
-                    xspriceoutput = '<div class="money"><a href="' + xsproductdata.url +'">' + xspricevarieslabel + xsprice + '</a></div>';
+                    xspriceoutput = '<span class="price">' + xspricevarieslabel + '<span class="money">'+xsprice +'</span></span>';
 
                     if(xsdisplaycompareatprice)
                     {
-  	                  if(!xsproductdata.price_varies && (xsproductdata.compare_at_price > xsproductdata.price))
+  	                  if(!xsproductdata.price_varies && (xsproductdata.compare_at_price_max > xsproductdata.price))
         	            {
-            	            xscompareatprice = xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
-                          xscompareatpricestring = '<span class="xs-compare-at-price">' + xscompareatprice + '</span>';
-                          xssalepricestring = '<span class="xs-sale-price"><a href="' + xsproductdata.url +'">' + xsprice + '</a></span>';
-                          xspriceoutput = '<div class="money' + saleclass + '">' + xscompareatpricestring + ' ' + xspricevarieslabel + xssalepricestring + '</div>';
+            	          xscompareatprice = xsformatMoney(xsproductdata.compare_at_price_max , '{{ shop.money_format }}');
+                          xscompareatpricestring = '<span class="was_price"><span class="money">' + xscompareatprice + '</span></span>';
+                          xssalepricestring = '<span class="money">' + xsprice + '</span>';
+                          xspriceoutput = '<span class="price' + saleclass + '">' + xscompareatpricestring + ' ' + xspricevarieslabel + xssalepricestring + '</span>';
                       }
                     }
 
                     //Show Sale Badge Output
                     if(xsdisplaysalebadge)
                     {
-                      if(xsproductdata.compare_at_price > xsproductdata.price)
+                      if(xsproductdata.compare_at_price_max > xsproductdata.price)
                       {
                         xssalebadgeoutput = xssalebadge;
                       }
@@ -468,27 +468,26 @@
                       }
                     }
 
-                    xselloutput += '<div class="one-quarter column '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
+                    xselloutput += '<div class="one-third column '+alphaomega+'thumbnail'+ evenodd+'" data-xsorder="' + xsproductdata["order"] + '">'
                                          + '<div class="product-wrap">'
-                                         + '<div class="relative product_image swap-true">'
+                                         + '<div class="relative product_image swap-false">'
                                          +'<a href="'+xsproductdata.url+'" itemprop="url">'
                                          + '<div class="image__container">'
                                          +'<img src="'+csimage+'" class="fade-in lazyautosizes lazyloaded">'
                                          + '</div>'
-                                         + '<div class="image__container">'
-                                         + '<img src="'+csimagetwo+'"class="secondary lazyloaded">'
-                                         + '</div>'
+                                        // + '<div class="image__container">'
+                                         //+ '<img src="'+csimagetwo+'"class="secondary lazyloaded">'
+                                         //+ '</div>'
                                          +'</a>'
+                    					 + xssalebadgeoutput
                                          + '</div>'
-                    					 + '<a class="product-info__caption " href="'+xsproductdata.url+'" itemprop="url">'
-                                         + '<div class="product-details"><span itemprop="brand" class="brand">'
-                    					 + xsvendoroutput
-                						 + '</span><span class="title" itemprop="name">'
+                    					 + '<a class="product-info__caption" href="'+xsproductdata.url+'" itemprop="url">'
+                                         + '<div class="product-details">'
+                                         +  xsvendoroutput
+                						 + '<span class="title" itemprop="name">'
                     					 + xsproductdata.title+'</span>'
-                    					 +'<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id + '"></span>'
-                    					 + '<span class="price "><span class="money"> <span class="money">'
+                    					 //+'<span class="shopify-product-reviews-badge" data-id="' + xsproductdata.id + '"></span>'
                       				     + xspriceoutput
-                						 + '</span></span></span>'
                						     + '</div></a>'
                                          + '</div>'
                                          + '</div>';
