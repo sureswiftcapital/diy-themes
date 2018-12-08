@@ -57,6 +57,7 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
     var saveBadge = '';
     var saveprice = '';
     var saveAmountBadge = '';
+    var saveAmountClass = '';
     var xsprice = '';
    	for(var x=0; x < numproducts; x++) {
    	var xsproductdata = xsellitems[x];
@@ -99,6 +100,7 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
         saveBadge = '<div class="save-badge4"> On Sale <br></div>';
         saveprice = Shopify.formatMoney(xsproductdata.compare_at_price - xsproductdata.price, '{{ shop.money_format }}');
         saveAmountBadge = '<div class="save_amount_two">SAVE ' + saveprice + '</div>';
+        saveAmountClass = 'price-section-two';
       }
       else {
         xssalebadgeoutput = '';
@@ -118,7 +120,7 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
                      + '</a>'
                      + '</div>'
                      + '<div class="grid__product-content text-center">'
-                     + '<div class="price-section">'
+                     + '<div class="price-section '+saveAmountClass+ '">'
                      + xspriceoutput
                      + saveAmountBadge
                      + '</div>'
