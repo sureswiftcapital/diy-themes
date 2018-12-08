@@ -10,7 +10,9 @@ Instructions:
 Once created it SHOULD say 'cross-sell-custom.liquid' IF NOT, rename it.
 2) make sure the line of code below is added BEFORE the </head> element of your theme.liquid file (or main theme file)
 
+<!-- Cross Sell custom code start. Do not change -->
 {%include 'cross-sell-custom'%}
+<!-- Cross Sell custom code end. Do not change -->
 
 3) Make sure you to SAVE the changes made to your theme.liquid file
 4) Have Cross Sell's Settings -> Display Settings set to "custom" theme, and activate the carousel feature if needed.
@@ -82,7 +84,7 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
       xspricevarieslabel = '';
       }
     }
-    xspriceoutput = '<span class="price">' + xsprice + '</span>';
+    xspriceoutput = '<span class="price no-compare-price"><p>' + xsprice + '</p></span>';
     if(xsdisplaycompareatprice) {
    	  if(xsproductdata.compare_at_price > xsproductdata.price) {
        xscompareatprice = xsellLib.xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
@@ -116,13 +118,13 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
                      + '</a>'
                      + '</div>'
                      + '<div class="grid__product-content text-center">'
-                     + '<p class="h5">'
-                     + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
-                     + '</p>'
-                     + '<div class="price-section price-section-two">'
+                     + '<div class="price-section">'
                      + xspriceoutput
                      + saveAmountBadge
                      + '</div>'
+                     + '<p class="h5">'
+                     + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
+                     + '</p>'
                      + '</div>'
                      + '</div>'
                      + '</div>';
@@ -130,7 +132,7 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
   if(xsellLib.xselloutput != ''){
     var xsellDiv = document.createElement('div');
     xsellDiv.className = '';
-    xsellDiv.innerHTML = '<div class="home--carousel"><div class="wrapper"><h2 class="title">' + xsellLib.settings.xstitle + '</h2><div class="carousel-product owl-carousel cross-sell">' + xsellLib.xselloutput + '</div></div></div>'; //output here
+    xsellDiv.innerHTML = '<div class="home--carousel"><div class="wrapper"><h2 class="title">' + xsellLib.settings.xstitle + '</h2><div class="cross-sell cross-sell_wrap carousel-product owl-carousel">' + xsellLib.xselloutput + '</div></div></div>'; //output here
     document.getElementById('cross-sell').appendChild(xsellDiv);
     //load native theme carousel code?
     $('#cross-sell .owl-carousel').owlCarousel({
