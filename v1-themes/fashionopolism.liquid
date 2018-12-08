@@ -29,7 +29,7 @@
 
 	  //objects
     var xsellitems = {};
-    var xsellproductdata = [];    
+    var xsellproductdata = [];
 
     //settings
     var xsmainproducthandle = '{{ product.handle }}';
@@ -45,7 +45,7 @@
     var xsdisplaypricevarieslabel = false;
     var xsdisplayvendor = true;
 
-    //text and labels 
+    //text and labels
     var xselloutput = '';
     var xstmpdata = '';
     var xstmptitle = '';
@@ -124,12 +124,15 @@
 
 <style type="text/css">
 
-.cs-tac {text-align: center;margin-top: 20px;}
+.cs-tac {text-align: center;margin-top: 20px;text-transform:uppercase;}
 /*.cs-was {color: #e40477; text-decoration: line-through; display: inline; margin-left: 5px;}*/
 .cross-sell  {text-align: center;}
 #cross-sell {margin-top: 20px;border-top: 1px solid #d5d5d5;}
 #cross-sell .product-index {float: none;display: inline-block;vertical-align: text-top;}
-  
+@media only screen and (min-width: 769px) {
+  #cross-sell img{width:auto; height:300px;}
+}
+
 </style>
 
 <div id="cross-sell"></div>
@@ -257,7 +260,7 @@
 
               // 2. For each element of data, create a Deferred push push it to the array
               for(var i = 0; i < xsdata.length; i++){
-          
+
                   //don't process this cross-sell if it is in the basket
                     if(xshideifincart)
                     {
@@ -287,7 +290,7 @@
               // 3.1. Function called by the loop to create a Deferred object (data is numeric)
               function processItem(xsitem) {
 
-                var xsorder = xsitem["order"];          		          
+                var xsorder = xsitem["order"];
 
                 // 3.1.1. Create the Deferred object and output some debug
                 var dfd = jQueryxsApp.Deferred();
@@ -348,7 +351,7 @@
                     }
 
                 {% endif %}
-              
+
               	if(xsrandomize)
                 {
                   //randomize the products
@@ -393,14 +396,14 @@
                       var csimage = 'https://cdn.shopify.com/s/images/admin/no-image-'+xsimagesize+'.gif';
                       var csimagetwo = csimage;
                     }
-                  
+
                   	//Display Vendor
                      if(xsdisplayvendor)
-                     {                              
+                     {
                        xsvendoroutput = '<h3>' + xsproductdata.vendor + '</h3>';
                      }
-                  
-                  
+
+
 
                     //Build Price Output
                     xsprice = xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
@@ -441,7 +444,7 @@
                       }
                       else
                       {
-                       xssalebadgeoutput = ''; 
+                       xssalebadgeoutput = '';
                       }
                     }
 
@@ -460,7 +463,7 @@
                                 + '</div>'
                                 + '</div>'
                                 + '<div class="product-info">'
-                                + '<a href="' + xsproductdata.url + '">' 
+                                + '<a href="' + xsproductdata.url + '">'
                                 // + xsvendoroutput
                                 + '<h3>' + xsproductdata.title + '</h3>'
                                 + '</a>'
