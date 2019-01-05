@@ -29,7 +29,7 @@
 
 	  //objects
     var xsellitems = {};
-    var xsellproductdata = [];    
+    var xsellproductdata = [];
 
     //settings
     var xsmainproducthandle = '{{ product.handle }}';
@@ -45,7 +45,7 @@
     var xsdisplaypricevarieslabel = false;
     var xsdisplayvendor = true;
 
-    //text and labels 
+    //text and labels
     var xselloutput = '';
     var xstmpdata = '';
     var xstmptitle = '';
@@ -123,7 +123,7 @@
 </script>
 
 <style type="text/css">
- 
+  #cross-sell .collection-header{margin-bottom:0px !important;margin-top:0px !important;}
 </style>
 
 <div id="cross-sell"></div>
@@ -251,7 +251,7 @@
 
               // 2. For each element of data, create a Deferred push push it to the array
               for(var i = 0; i < xsdata.length; i++){
-          
+
                   //don't process this cross-sell if it is in the basket
                     if(xshideifincart)
                     {
@@ -281,7 +281,7 @@
               // 3.1. Function called by the loop to create a Deferred object (data is numeric)
               function processItem(xsitem) {
 
-                var xsorder = xsitem["order"];          		          
+                var xsorder = xsitem["order"];
 
                 // 3.1.1. Create the Deferred object and output some debug
                 var dfd = jQueryxsApp.Deferred();
@@ -342,7 +342,7 @@
                     }
 
                 {% endif %}
-              
+
               	if(xsrandomize)
                 {
                   //randomize the products
@@ -387,14 +387,14 @@
                       var csimage = 'https://cdn.shopify.com/s/images/admin/no-image-'+xsimagesize+'.gif';
                       var csimagetwo = csimage;
                     }
-                  
+
                   	//Display Vendor
                      if(xsdisplayvendor)
-                     {                              
+                     {
                        xsvendoroutput = '<div class="xs-vendor-name"><a href="' + xsproductdata.url +'">' + xsproductdata.vendor + '</a></div>';
                      }
-                  
-                  
+
+
 
                     //Build Price Output
                     xsprice = xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
@@ -413,16 +413,16 @@
                       	}
                     }
 
-                    xspriceoutput = '<div class="money"><a href="' + xsproductdata.url +'">' + xspricevarieslabel + xsprice + '</a></div>';
+                    xspriceoutput = '<div class="product-price"><span class="money" data-variant-price>' + xspricevarieslabel + xsprice + '</span></div>';
 
                     if(xsdisplaycompareatprice)
                     {
   	                  if(!xsproductdata.price_varies && (xsproductdata.compare_at_price > xsproductdata.price))
         	            {
             	            xscompareatprice = xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
-                          xscompareatpricestring = '<span class="xs-compare-at-price">' + xscompareatprice + '</span>';
-                          xssalepricestring = '<span class="xs-sale-price"><a href="' + xsproductdata.url +'">' + xsprice + '</a></span>';
-                          xspriceoutput = '<div class="money' + saleclass + '">' + xscompareatpricestring + ' ' + xspricevarieslabel + xssalepricestring + '</div>';
+                          xscompareatpricestring = '<span class="money money-compare-at" data-variant-compare-at-price>' + xscompareatprice + '</span>';
+                          xssalepricestring = '<span class="money" data-variant-price>' + xsprice + '</span>';
+                          xspriceoutput = '<div class="product-price">' + xscompareatpricestring + ' ' + xspricevarieslabel + xssalepricestring + '</div>';
                       }
                     }
 
@@ -435,7 +435,7 @@
                       }
                       else
                       {
-                       xssalebadgeoutput = ''; 
+                       xssalebadgeoutput = '';
                       }
                     }
 
@@ -450,9 +450,7 @@
                                       + '<h1 class="product-item-title">'
                                       + '<a href="' + xsproductdata.url + '">' + xsproductdata.title + '</a>'
                                       + '</h1>'
-                                      + '<div class="product-price product-item-price">'
-                                      + '<span class="money" data-variant-price>' + xsprice + '</span>'
-                                      + '</div>'
+                                      + xspriceoutput
                                       + '</article>'
                                       + '</div>';
 				}
