@@ -91,7 +91,7 @@ display:none !important}
         var csimagetwo = csimage;
       }
       if(xsdisplayvendor) {
-         xsvendoroutput = '<div class="xs-vendor-name"><a href="' + xsproductdata.url +'">' + xsproductdata.vendor + '</a></div>';
+         xsvendoroutput = '<h4 class="xs-vendor-name">' + xsproductdata.vendor + '</h4>';
        }
        xsprice = xsellLib.xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
 
@@ -136,12 +136,13 @@ display:none !important}
                            + '<div class="prod-image">'
                            + '<a href="' + xsproductdata.url + '" title="' + xsproductdata.title + '">'
                            + '<img src="' + csimage + '" alt="' + xsproductdata.title + '" />'
-                           + '</a><a class="fancybox.ajax product-modal" href="'+xsproductdata.url+'?view=quick">{{ 'products.general.quick_view' | t }}</a>'
+                           + '</a>'
+                           + '<a class="fancybox.ajax product-modal" href="'+xsproductdata.url+'?view=quick">{{ 'products.general.quick_view' | t }}</a>'
                            + '</div>'
                            +'<div class="product-info">'
                            + '<div class="product-info-inner">'
                            + '<a href="' + xsproductdata.url + '">'
-                           + '<h4 class="xs-vendor-name">' + xsproductdata.vendor + '</h4>'
+                           + xsvendoroutput
                            + '<h3>' + xsproductdata.title + '</h3>'
                            + '</a>'
                            + '<div class="price">' + xspriceoutput + '</div>'
