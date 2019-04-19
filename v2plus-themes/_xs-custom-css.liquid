@@ -26,9 +26,26 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
 <style type="text/css">
 #cross-sell *{font-family: inherit !important;}
 .xsell__modal .xsell__modal-content{font-family: inherit !important;}
-.xsell-quickview__overlay-btn{
-background:black !important;}
-.xsell__modal .xsell__modal-btn{
-background:black !important;}
-
+@media only screen and (min-width: 769px) {
+.cross-sell.xs-v2 .xs-card{width:300px !important;}
+.cross-sell.xs-v2 .xs-card .xs-image{width:300px !important;}
+.cross-sell.xs-v2 .xs-card .xs-image img{width:300px !important;}
+}
+@media only screen and (max-width: 768px) {
+  /* Hide this on mobile */
+  .xs-mobile-hide{
+  display:none !important}
+}
+@media only screen and (min-width: 769px) {
+  /* Hide this on desktop */
+  .xs-desktop-hide{
+  display:none !important}
+}
+/* make popup hover transparent & button same color as Quickview*/
+.xsell__modal .xsell__modal-product:hover .xsell__modal-product-overlay{background:transparent !important;}
+.xsell__modal .xsell__modal-product .xsell__modal-product-overlay .xsell__modal-product-button{
+  background-color: !important;
+  color: !important;
+  border: !important;
+}
 </style>
