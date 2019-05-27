@@ -29,7 +29,7 @@
 
 	  //objects
     var xsellitems = {};
-    var xsellproductdata = [];    
+    var xsellproductdata = [];
 
     //settings
     var xsmainproducthandle = '{{ product.handle }}';
@@ -45,7 +45,7 @@
     var xsdisplaypricevarieslabel = false;
     var xsdisplayvendor = false;
 
-    //text and labels 
+    //text and labels
     var xselloutput = '';
     var xstmpdata = '';
     var xstmptitle = '';
@@ -123,7 +123,11 @@
 </script>
 
 <style type="text/css">
-
+#cross-sell .section-title.desktop-12.mobile-3{margin-top:40px;}
+#cross-sell .cross-sell{display: grid;grid-template-columns: repeat(4, 1fr);}
+@media only screen and (max-width: 768px) {
+  #cross-sell .cross-sell{display: grid;grid-template-columns: repeat(2, 1fr);}
+}
 </style>
 
 <div class="cs-clearfix"></div>
@@ -253,7 +257,7 @@
 
               // 2. For each element of data, create a Deferred promise and push it to the array
               for(var i = 0; i < xsdata.length; i++){
-          
+
                   //don't process this cross-sell if it is in the basket
                   if(xshideifincart)
                   {
@@ -283,7 +287,7 @@
               // 3.1. Function called by the loop to create a Deferred object (data is numeric)
               function processItem(xsitem) {
 
-                var xsorder = xsitem["order"];          		          
+                var xsorder = xsitem["order"];
 
                 // 3.1.1. Create the Deferred object and output some debug
                 var dfd = jQueryxsApp.Deferred();
@@ -344,7 +348,7 @@
                     }
 
                 {% endif %}
-              
+
               	if(xsrandomize)
                 {
                   //randomize the products
@@ -389,14 +393,14 @@
                       var csimage = 'https://cdn.shopify.com/s/images/admin/no-image-'+xsimagesize+'.gif';
                       var csimagetwo = csimage;
                     }
-                  
+
                   	//Display Vendor
                      if(xsdisplayvendor)
-                     {                              
+                     {
                        xsvendoroutput = '<h4>' + xsproductdata.vendor + '</h4>';
                      }
-                  
-                  
+
+
 
                     //Build Price Output
                     xsprice = xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
@@ -439,10 +443,10 @@
 					  else
                       {
                         xssalebadgeoutput = '';
-                      }                      
+                      }
                     }
 
-                    xselloutput += '<div class="product desktop-3 tablet-half mobile-half" id="prod-' + xsproductdata.id + '" data-alpha="' + xsproductdata.title + '" data-price="' + xsproductdata.price + '" data-xsorder="' + xsproductdata["order"] + '">'
+                    xselloutput += '<div class="product" id="prod-' + xsproductdata.id + '" data-alpha="' + xsproductdata.title + '" data-price="' + xsproductdata.price + '" data-xsorder="' + xsproductdata["order"] + '">'
                                   + '<div class="ci">'
                                   + xssalebadgeoutput
                                   + '<a href="' + xsproductdata.url + '" title="' + xsproductdata.title + '">'
@@ -454,21 +458,21 @@
                                   + '</div>'
                                   + '</a>'
                                   + '</div>'
-                                  + '<div class="product-info">' 
+                                  + '<div class="product-info">'
                                   // + '<a class="fancybox.ajax product-modal" rel="nofollow" href="' + xsproductdata.url + '?view=quick">{{ 'products.general.quick_view' | t }}</a>'
-                                  + '</div>' 
-                                  + '<div class="product-details">'  
-                                  + '<a href="' + xsproductdata.url + '">' 
-                                  + '<h3>' + xsproductdata.title + '</h3>'      
+                                  + '</div>'
+                                  + '<div class="product-details">'
+                                  + '<a href="' + xsproductdata.url + '">'
+                                  + '<h3>' + xsproductdata.title + '</h3>'
                                   + xsvendoroutput
-                                  + '</a>'  
+                                  + '</a>'
                                   + xspriceoutput
                                   + '</div>'
                                   + '</div>';
 				}
 				if(xselloutput != '')
 				{
-                	jQueryxsApp('#cross-sell').append('<div class="section-title desktop-12 mobile-3"><h1>' + xstmptitle + '</h1></div><div class="desktop-12 tablet-6 mobile-3" id="bside"><div class="clear"></div><div id="product-loop" class="cross-sell">' + xselloutput + '</div></div>');
+                	jQueryxsApp('#cross-sell').append('<div class="section-title desktop-12 mobile-3"><h1>' + xstmptitle + '</h1></div><div class="desktop-12 tablet-6 mobile-3"><div class="cross-sell">' + xselloutput + '</div></div>');
                 }
             }
 
