@@ -1,0 +1,17 @@
+
+<!--
+use this code instead of just {%include 'cross-sell'%}, IF you want to show your theme's
+related items when no handpicked items exist.
+-->
+
+{% if product.metafields.productDetails.crosssell or shop.metafields.shopCrosssell.default != null %}
+
+{% include 'cross-sell' %}
+
+{% else %}
+
+{% comment %}
+your theme's related items code goes here
+{% endcomment %}
+
+{% endif %}
