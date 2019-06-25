@@ -60,7 +60,7 @@ h3.crosssell-title {
   margin: 10px;
   width: 100%;
   max-width: 350px;
-  max-height: 200px;
+  max-height: 300px;
   display: inline-block;
   background: #fff;
   border: 1px solid rgba(172, 172, 172, 0.1);
@@ -88,7 +88,7 @@ h3.crosssell-title {
 }
 
 .xs-card .xs-card-body img.xs-image {
-  max-height: 150px;
+  max-height: 200px;
   width: auto;
   vertical-align: top;
 }
@@ -128,6 +128,7 @@ h3.crosssell-title {
   display: block;
   font-size: 16pxx;
   color: #cb103f;
+  margin-top:10px;
 }
 
 .xs-card .xs-compare-at-price {
@@ -255,12 +256,9 @@ h3.crosssell-title{text-transform:uppercase;border-bottom: 3px solid #000 !impor
                            + '<span class="break"></span>'
                            + '<div class="xs-product-vendor">'+xsvendoroutput+'</div>'
                            + '<span class="price">'+xspriceoutput+'</span>'
-
                            + '</div>'
-
                            + '</div>'
                            + '<form method="post" action="/cart/add" class="xsell-atc"> <input type="hidden" name="id" value="'+xsproductdata.variants[0].id +'" /> <input type="submit" value="Add to Cart" class="btn" /> </form>'
-
                            + '</div>';
     }
     if(xsellLib.xselloutput != ''){
