@@ -28,41 +28,73 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
 #cross-sell *{font-family: inherit !important;}
 .xsell__modal .xsell__modal-content{font-family: inherit !important;}
 
-/* make popup hover transparent & button same color as Quickview*/
-.xsell__modal .xsell__modal-product:hover .xsell__modal-product-overlay{background:transparent !important;}
-.xsell__modal .xsell__modal-product .xsell__modal-product-overlay .xsell__modal-product-button{
-  background-color: !important;
-  color: !important;
-  border: !important;
-}
+/* cross sell container */
+#cross-sell{}
 
 /* change header styles */
 h3.crosssell-title{}
 
-/* below is for SLICK & MODERN THEMES ONLY */
+/* cross sell elements */
 
-/* xsell title */
-.cross-sell.xs-v2 .xs-card .xs-card-body .xs-product-title{}
-/* xsell prices */
-.cross-sell.xs-v2 .xs-card .xs-card-body .xs-price{}
-/* xsell container */
+  /* xsell card container */
 .cross-sell.xs-v2 .xs-card {}
-/* change sales badge */
+  /* xsell title */
+.cross-sell.xs-v2 .xs-card .xs-card-body .xs-product-title{}
+
+  /* xsell vendor */
+.cross-sell.xs-v2 .xs-card .xs-card-body .xs-vendor-name{}
+
+  /* xsell prices */
+.cross-sell.xs-v2 .xs-card .xs-card-body .xs-price{}
+
+  /* change sales badge */
 .cross-sell.xs-v2 .xs-card .xs-image .xs-sales-badge {}
 
-/* change image sizes desktop */
-@media only screen and (min-width: 769px) {
-.cross-sell.xs-v2 .xs-card{width:300px !important;}
-.cross-sell.xs-v2 .xs-card .xs-image{width:300px !important;}
-.cross-sell.xs-v2 .xs-card .xs-image img{width:300px !important;}
-}
-
-/* change image sizes mobile */
-@media only screen and (max-width: 768px) {
+  /* change image sizes desktop */
+  @media only screen and (min-width: 769px) {
   .cross-sell.xs-v2 .xs-card{width:300px !important;}
   .cross-sell.xs-v2 .xs-card .xs-image{width:300px !important;}
   .cross-sell.xs-v2 .xs-card .xs-image img{width:300px !important;}
-}
+  }
+
+  /* change image sizes mobile */
+  @media only screen and (max-width: 768px) {
+    .cross-sell.xs-v2 .xs-card{width:300px !important;}
+    .cross-sell.xs-v2 .xs-card .xs-image{width:300px !important;}
+    .cross-sell.xs-v2 .xs-card .xs-image img{width:300px !important;}
+  }
+
+/* carousel */
+.cross-sell .flickity-prev-next-button.previous{}
+.cross-sell .flickity-prev-next-button.next{}
+.cross-sell .flickity-prev-next-button{}
+.cross-sell .flickity-prev-next-button .flickity-button-icon{}
+/*******************************/
+/* popup & quickview elements */
+/*******************************/
+
+/* quickview -> make sure it's set to Bpbby in Settings! */
+
+/* TODO: fix close x on popup to be same as Quickview */
+  .xsell__modal .xsell__modal-header .xsell__modal-close:after{height:20px !important}
+  .xsell__modal .xsell__modal-header .xsell__modal-close:before{height:20px !important}
+  .xsell__modal .xsell__modal-header .xsell__modal-close{top:10px !important; right:10px !important;}
+
+.xsell__modal .xsell__modal-more-info .xsell__modal-more-info-title {} /* product title top */
+.xsell__modal-product-price{} /* quickview price */
+.xsell__modal .xsell__modal-select label{} /* options selector label */
+.xsell__modal .xsell__modal-select select{} /* options selector options */
+.xsell__modal-more-info-add-to-cart-btn{} /* ATC quickview */
+.xsell__modal .xsell__modal-more-info .xsell__modal-more-info-description{} /* quickview description text */
+
+  /* overlay */
+.xsell__modal .xsell__modal-product:hover .xsell__modal-product-overlay{} /* popup overlay */
+.xsell__modal .xsell__modal-product .xsell__modal-product-overlay .xsell__modal-product-button{} /* popup overlay button */
+.xsell__modal .xsell__modal-header .xsell__modal-content-title{} /* header */
+.xsell__modal .xsell__modal-product .xsell__modal-product-title{} /* title on overlay & popup */
+.xsell__modal-product-price{}  /* price on overlay & popup & quickview */
+
+
 
 
 </style>
