@@ -126,7 +126,7 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
  .cross-sell.xs-v2 .xs-card .xs-card-body .xs-price .xs-price-varies {
    font-size: 14px;
  }
- .cross-sell.xs-v2 .xs-card .xs-card-body .xs-price .xs-compare-at-price {
+ .cross-sell.xs-v2 .xs-card .xs-card-body .money.xs-sale span.xs-compare-at-price{
    padding-right: 5px;
    display: inline-block;
    text-decoration: line-through;
@@ -220,8 +220,8 @@ Have problems or feedback? DON'T PANIC! Email us at support@csell.co or check ou
                            +'<div class="xs-product-title">'+xsproductdata.title+'</div>'
                            +'</a>'
                            + xspriceoutput
+                           + '<form method="post" action="/cart/add"> <input type="hidden" name="id" value="'+xsproductdata.variants[0].id +'" /> <input type="submit" value="Add to Cart" class="btn btn--full product-form__cart-submit" /> </form>'
                            + '</div>'
-                           + '<form method="post" action="/cart/add"> <input type="hidden" name="id" value="'+xsproductdata.variants[0].id +'" /> <input type="submit" value="Add to Cart" class="btn" /> </form>'
                            + '</div>';
  		}
 
