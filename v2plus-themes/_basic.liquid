@@ -14,22 +14,30 @@ Have problems or feedback? Email us at support@csell.co or check our support sit
 {% endcomment %}
 
 <style type="text/css">
-#cross-sell{float:left;clear:both;width:100%;}
-h3.crossselltitle{margin:25px 0;text-align: center;}
-.cross-sell{overflow:hidden;list-style-type:none;margin:0;padding:0;clear:both;text-align:center;}
-.cross-sell *{font-size:13px; text-align:center; padding:0;}
+#cross-sell{float:left;clear:both;width:100%;font-family: "Poppins", sans-serif !important;margin-left: 20px;margin-top:50px;}
+h3.crossselltitle{text-align: left !important;text-transform:uppercase;margin-bottom:50px;font-size:19px;}
+.cross-sell{overflow:hidden;list-style-type:none;clear:both;text-align:left;}
+.cross-sell *{font-size:13px; text-align:left; padding:0;color:#333333;}
 .cross-sell h4{border:none;margin:5px 0 0 0;line-height:1.5;}
 .cross-sell div.image{height:180px;}
-.cross-sell li{float: none;display:inline-block;vertical-align: text-top;padding:0 0 10px 0;margin:0 14px 30px 0;position:relative;width:172px;}
-.cross-sell li:last-child{margin-right:0;}
-.cross-sell li .image{}
-.cross-sell li .image img{margin:0px 0 10px 0px;float:left;width:100%;}
-.cross-sell li .producttitle{float:left;padding:5px 0;width:100%;min-height:56px;}
-.cross-sell li a{text-decoration:none;font-size:115%;line-height:20px;padding:5px;}
-.cross-sell li .money a{font-size:180%;float:left;text-align:center; padding:5px 0;width:100%;}
+.cross-sell li{float: none;display:inline-block;vertical-align: text-top;padding:0 0 10px 0;margin:0 100px 30px 0;position:relative;width:172px;}
+.cross-sell li .image{max-height:200px !important;}
+.cross-sell li .image img{float:left;max-height: 220px;max-width: -webkit-fill-available;min-width:220px;}
+.cross-sell li .producttitle{float:left;width:100%;min-height:45px;color:#333333 !important;text-decoration:none !important;margin-top:10px;}
+.cross-sell li a{text-decoration:none;font-size:115%;line-height:20px;}
+.cross-sell li .money a{font-size:180%;float:left;text-align:center; padding:5px 0;width:100%;color:#bc003b}
+.cross-sell li .money{color:#bc003b;font-size:15px;display:block;}
 .cross-sell .xs-compare-at-price{padding-right: 5px;display: inline-block;text-decoration: line-through;}
 .cross-sell .xs-vendor-name{padding:5px 0;width:100%;display:inline-block;}
+.cross-sell .xs-compare-at-price{color:#333333 !important;}
+#xsell-quickview .xsell-quickview__overlay-btn{margin-left:30px !important;}
 .cs-clearfix:after {content: "."; visibility: hidden; display: block; height: 0; clear: both;}
+
+/* change image sizes mobile */
+  @media only screen and (max-width: 768px) {
+    .cross-sell li .producttitle{margin-top:0px !important;}
+    .cross-sell{margin-right:20px !important;}
+}
 </style>
 
 <script>
@@ -88,31 +96,25 @@ h3.crossselltitle{margin:25px 0;text-align: center;}
                     xsprice = xsellLib.xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
 
 
-					//Show price varies label?
-                    if(xsdisplaypricevarieslabel)
-                    {
-                    	if(xsproductdata.price_varies)
-                      	{
-                          xspricevarieslabel = '';
-                      	}
-                      	else
-                      	{
-                        	xspricevarieslabel = '<span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>';
-                      	}
-                    }
-
-                    xspriceoutput = xspricevarieslabel + '<div class="money">' + xsprice + '</div>';
-
-                    if(xsdisplaycompareatprice)
-                    {
-  	                  if(xsproductdata.compare_at_price > xsproductdata.price)
-        	            {
-            	            xscompareatprice = xsellLib.xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
-                          xscompareatpricestring = '<span class="xs-compare-at-price">' + xscompareatprice + ' </span>';
-                          xssalepricestring = '<span class="xs-sale-price">' + xsprice + ' <span class="product-price__sale-label">{{ 'products.product.on_sale' | t }}</span></span>';
-                          xspriceoutput = '<div class="money xs-sale">{{ 'products.product.regular_price' | t }}</span>' + xscompareatpricestring + ' ' + xssalepricestring + '</div>';
-                      }
-                    }
+                  //xsprice = currencyFix(xsproductdata.price)+' '+'{{ shop.currency }}';
+      xsprice = xsellLib.xsformatMoney(xsproductdata.price, '{{ shop.money_format }}');
+      if(xsdisplaypricevarieslabel) {
+      	if(xsproductdata.price_varies) {
+            xspricevarieslabel = 'From: ';
+        	}
+        	else {
+          	xspricevarieslabel = '';
+        	}
+      }             xspriceoutput = '<div class="money"><a href="' + xsproductdata.url +'">' + xspricevarieslabel + xsprice + '</a></div>';             if(xsdisplaycompareatprice)
+      {
+      if(!xsproductdata.price_varies && (xsproductdata.compare_at_price > xsproductdata.price)) {
+            //xscompareatprice = currencyFix(xsproductdata.compare_at_price)+' '+'{{ shop.currency }}';
+            xscompareatprice = xsellLib.xsformatMoney(xsproductdata.compare_at_price, '{{ shop.money_format }}');
+            xscompareatpricestring = '<span class="xs-compare-at-price">' + xscompareatprice + '</span>';
+            xssalepricestring = '<span class="xs-sale-price"><a href="' + xsproductdata.url +'">' + xsprice + '</a></span>';
+            xspriceoutput = '<div class="xs-sale-price' + saleclass + '">' + xscompareatpricestring + ' ' + xspricevarieslabel + xssalepricestring + '</div>';
+        }
+      }
 
                     //Show Sale Badge Output
                     if(xsdisplaysalebadge)
@@ -140,7 +142,7 @@ h3.crossselltitle{margin:25px 0;text-align: center;}
                                         + '</div>'
                                         + xsvendoroutput
                                         + xspriceoutput
-                                        + '<form method="post" action="/cart/add"> <input type="hidden" name="id" value="'+xsproductdata.variants[0].id +'" /> <input type="submit" value="Add to Cart" class="btn" /> </form>'
+                                       // + '<form method="post" action="/cart/add"> <input type="hidden" name="id" value="'+xsproductdata.variants[0].id +'" /> <input type="submit" value="Add to Cart" class="btn" /> </form>'
                                         +'</li>';
 				}
         if(xsellLib.xselloutput != ''){
